@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  frontend:
+    container_name: frontend-delivery
+    build: './front-end'
+    ports:
+      - 3000:3000
+    working_dir: /app-frontend
+    restart: 'always'
+    volumes:
+      - ./front-end:/app-frontend
+    depends_on:
+      - backend
+  backend:
+    container_name: backend-delivery
+    build: ./back-end
+    ports:
+      - 3001:3001
+    working_dir: /app-backend
+    command: dev
+    restart: 'always'
+    volumes:
+      - ./back-end:/app-backend
+    depends_on:
+      - db
+  db:
+    image: mysql:8.0.21
+    container_name: db-delivery
+    platform: linux/x86_64
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+    ports:
+      - 3002:3306
+    restart: 'always'
+    cap_add:
+      - SYS_NICE
