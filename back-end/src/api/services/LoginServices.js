@@ -1,9 +1,17 @@
-const sequelize = require('sequelize')
-const { users } = require('../../database/models')
+const md5 = require('md5')
+const { Users } = require('../../database/models');
+const { createToken } = require('../utils/jwt');
 
-async function login({email, password}) {
-  const user = await new users();
-  console.log(user);
+async function userLogin({ email, password }) {
+  const hashPassword = md5(password);
+  const user = await Users.findOne({ where: { email, password: hashPassword } });
+  if (!user) {
+    return { error: { status: 404, message: 'User not found' } };
+  }
+  const token = createToken({ email, password, role: user.role })
+  return { token };
 }
 
-module.exports = login;
+module.exports = {
+  userLogin
+};
