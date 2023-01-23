@@ -1,4 +1,4 @@
-const md5 = require('md5')
+const md5 = require('md5');
 const { Users } = require('../../database/models');
 const { createToken } = require('../utils/jwt');
 
@@ -8,10 +8,10 @@ async function userLogin({ email, password }) {
   if (!user) {
     return { error: { status: 404, message: 'User not found' } };
   }
-  const token = createToken({ email, password, role: user.role })
+  const token = createToken({ email, password, role: user.role });
   return { token };
 }
 
 module.exports = {
-  userLogin
+  userLogin,
 };

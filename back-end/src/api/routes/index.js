@@ -5,6 +5,6 @@ const routes = Router();
 
 routes.get('/coffee', (_req, res) => res.status(418).end());
 
-routes.use('/login', loginRoutes)
+routes.use('/login', loginRoutes);
 
 module.exports = routes;
