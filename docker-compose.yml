@@ -3,12 +3,14 @@ services:
   frontend:
     container_name: frontend-delivery
     build: './front-end'
+    tty: true
     ports:
       - 3000:3000
     working_dir: /app-frontend
     restart: 'always'
     volumes:
-      - ./front-end:/app-frontend
+      - ./front-end/src:/app-frontend/src
+      - ./front-end/package.json:/app-frontend/package.json
     depends_on:
       - backend
   backend:
@@ -16,11 +18,13 @@ services:
     build: ./back-end
     ports:
       - 3001:3001
+    tty: true
     working_dir: /app-backend
     command: dev
     restart: 'always'
     volumes:
-      - ./back-end:/app-backend
+      - ./back-end/src:/app-backend/src
+      - ./back-end/package.json:/app-backend/package.json
     depends_on:
       - db
   db:
