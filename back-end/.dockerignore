@@ -3,4 +3,4 @@ node_modules
 .eslintignore
 .eslintrc.json
 .gitignore
-package-lock.json
+.dockerignore
