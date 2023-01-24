@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import api from '../service/api';
 import Header from '../components/Header';
 
@@ -50,7 +51,7 @@ export default function Register() {
     <>
       <Header />
 
-      <main className="max-w-[1124px] w-full mt-20  mx-auto flex justify-between items-center px-10">
+      <main>
 
         <section className="w-[1/2] ">
 
@@ -60,7 +61,6 @@ export default function Register() {
           >
             <input
               { ...register('name') }
-              className="bg-transparent w-full border-[1.4px] border-green-500 rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setName(value) }
               type="text"
               placeholder="Nome completo"
@@ -68,7 +68,6 @@ export default function Register() {
             />
             <input
               { ...register('email') }
-              className="bg-transparent w-full border-[1.4px] border-green-500 rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setEmail(value) }
               type="text"
               placeholder="E-mail"
@@ -76,14 +75,12 @@ export default function Register() {
             />
             <input
               { ...register('password') }
-              className="bg-transparent border-[1.4px] w-full border-green-500 rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setPassword(value) }
               type="password"
               placeholder="Senha"
               data-testid="common_register__input-password"
             />
             <button
-              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500 p-2 w-full rounded disabled:bg-green-700  "
               type="submit"
               data-testid="common_register__button-register"
               disabled={ disableBtn }
@@ -99,3 +96,11 @@ export default function Register() {
     </>
   );
 }
+
+Register.propTypes = {
+  disableBtn: PropTypes.bool,
+  name: PropTypes.string,
+  email: PropTypes.string,
+  password: PropTypes.string,
+  messageErr: PropTypes.string,
+}.isRequired;
