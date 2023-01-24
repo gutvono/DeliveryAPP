@@ -20,7 +20,7 @@ services:
       - 3001:3001
     tty: true
     working_dir: /app-backend
-    command: xablau
+    command: dev
     restart: 'always'
     volumes:
       - ./back-end/src:/app-backend/src
@@ -39,6 +39,8 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     ports:
       - 3002:3306
+    # volumes:
+    #   - ./back-end/src/database/db:/var/lib/mysql
     restart: 'always'
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]

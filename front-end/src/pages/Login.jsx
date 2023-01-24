@@ -33,14 +33,8 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
-    await api.post('/login', data)
-      .then((token) => {
-        console.log(token);
-      })
-      .catch(({ message, status }) => {
-        console.log(status);
-        setMessageErr(message);
-      });
+    const token = await api.post('login', data);
+    console.log(token);
     reset();
   }
   return (
@@ -65,7 +59,7 @@ function Login() {
             src={ delivery }
             width={ 450 }
             height={ 400 }
-            alt="um programador sentado em um puf com notbook"
+            alt="um programador sentado em um puf com notebook"
           />
         </section>
         <section className="w-[1/2] ">
