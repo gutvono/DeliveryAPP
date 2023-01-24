@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -61,6 +60,8 @@ export default function Register() {
           >
             <input
               { ...register('name') }
+              className="bg-transparent border-[1.4px] border-green-500
+                rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setName(value) }
               type="text"
               placeholder="Nome completo"
@@ -68,6 +69,8 @@ export default function Register() {
             />
             <input
               { ...register('email') }
+              className="bg-transparent border-[1.4px] border-green-500
+                rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setEmail(value) }
               type="text"
               placeholder="E-mail"
@@ -75,12 +78,16 @@ export default function Register() {
             />
             <input
               { ...register('password') }
+              className="bg-transparent border-[1.4px] border-green-500
+                rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setPassword(value) }
               type="password"
               placeholder="Senha"
               data-testid="common_register__input-password"
             />
             <button
+              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500
+                p-2 rounded disabled:bg-green-700  "
               type="submit"
               data-testid="common_register__button-register"
               disabled={ disableBtn }
