@@ -1,4 +1,3 @@
-const sequelize = require('sequelize')
 const { users } = require('../database/models')
 
 async function login({email, password}) {
