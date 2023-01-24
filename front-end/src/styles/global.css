@@ -1,0 +1,15 @@
+/* stylelint-disable at-rule-semicolon-space-before */
+
+/* stylelint-disable at-rule-no-unknown */
+
+@tailwind base;
+
+@tailwind components;
+
+@tailwind utilities;
+
+body {
+
+  @apply bg-gray-800;
+
+}
