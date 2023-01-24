@@ -1,32 +1,27 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const db = require('.');
+
 module.exports = (sequelize, DataTypes) => {
-  class salesProducts extends Model {
-    static associate(models) {
-      salesProducts.belongsTo(models.sales,
-        {foreignKey: 'id', as: 'saleId'});
-      salesProducts.belongsTo(models.products,
-        {foreignKey: 'id', as: 'productId'})
-    }
-  }
-  salesProducts.init({
-    saleId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-    },
-    productId: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-    },
+  const salesProducts = sequelize.define('SalesProducts', {
     quantity: DataTypes.INTEGER
   }, {
-    sequelize,
+    sequelize: db,
     tableName: 'salesProducts',
     modelName: 'salesProducts',
     underscored: true,
     timestamps: false,
   });
+
+  salesProducts.associate = (models) => {
+    salesProducts.belongsTo(
+      models.Sales,
+      { foreignKey: 'id', as: 'saleId' },
+    );
+    salesProducts.belongsTo(
+      models.Products,
+      { foreignKey: 'id', as: 'productId' },
+    );
+  }
+
   return salesProducts;
 };

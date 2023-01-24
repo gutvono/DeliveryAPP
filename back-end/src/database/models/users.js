@@ -1,5 +1,7 @@
+const db = require('.');
+
 module.exports = (sequelize, DataTypes) => {
-  const Users = sequelize.define('users', {
+  const users = sequelize.define('Users', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,9 +17,10 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING
   }, {
     timestamps: false,
-    sequelize,
+    sequelize: db,
     modelName: 'users',
     tableName: 'users',
   });
-  return Users;
+  
+  return users;
 };

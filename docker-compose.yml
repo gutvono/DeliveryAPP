@@ -20,13 +20,17 @@ services:
       - 3001:3001
     tty: true
     working_dir: /app-backend
-    command: dev
+    command: xablau
     restart: 'always'
     volumes:
       - ./back-end/src:/app-backend/src
       - ./back-end/package.json:/app-backend/package.json
+    environment:
+      - HOSTNAME=db
+      - MYSQL_PORT=3306
     depends_on:
-      - db
+      db:
+        condition: service_healthy
   db:
     image: mysql:8.0.21
     container_name: db-delivery
@@ -36,5 +40,12 @@ services:
     ports:
       - 3002:3306
     restart: 'always'
-    cap_add:
-      - SYS_NICE
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+networks:
+    default:
+        driver: bridge

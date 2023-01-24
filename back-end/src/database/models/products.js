@@ -1,12 +1,8 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const db = require('.');
+
 module.exports = (sequelize, DataTypes) => {
-  class products extends Model {
-    static associate(models) {}
-  }
-  products.init({
+  const products = sequelize.define('Products', {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -16,11 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     price: DataTypes.DECIMAL,
     urlImage: DataTypes.STRING
   }, {
-    sequelize,
+    sequelize: db,
     underscored: true,
     modelName: 'products',
     tableName: 'products',
     timestamps: false,
   });
+
   return products;
 };
