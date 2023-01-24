@@ -1,7 +1,7 @@
 const validateLoginFields = require('./validateLoginFields');
 const validateRegisterFields = require('./validateRegisterFields');
 
-module.exports= {
+module.exports = {
   validateLoginFields,
-  validateRegisterFields
-}
+  validateRegisterFields,
+};

@@ -27,7 +27,7 @@ async function userRegister(data) {
 
   const user = await Users.findOne({ where: { email: data.email } });
   if (user) {
-    return { error : { status: 409, message: 'User already exists' } }
+    return { error: { status: 409, message: 'User already exists' } };
   }
 
   const { password: pass } = data;
