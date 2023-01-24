@@ -33,14 +33,8 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
-    await api.post('/login', data)
-      .then((token) => {
-        console.log(token);
-      })
-      .catch(({ message, status }) => {
-        console.log(status);
-        setMessageErr(message);
-      });
+    const token = await api.post('/login', data);
+    console.log(token);
     reset();
   }
   return (
@@ -91,7 +85,7 @@ function Login() {
               data-testid="common_login__input-password"
             />
             <button
-              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500 p-2 w-full rounded disabled:bg-green-700  "
+              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500 p-2 w-full rounded disabled:bg-green-700"
               type="submit"
               data-testid="common_login__button-login"
               disabled={ disableBtn }
