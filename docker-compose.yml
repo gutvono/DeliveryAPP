@@ -39,8 +39,8 @@ services:
       - MYSQL_ROOT_PASSWORD=123456
     ports:
       - 3002:3306
-    # volumes:
-    #   - ./back-end/src/database/db:/var/lib/mysql
+    volumes:
+      - ./back-end/src/database/db:/var/lib/mysql
     restart: 'always'
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]

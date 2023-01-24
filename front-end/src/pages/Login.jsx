@@ -33,10 +33,13 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
+    console.log('front - antes da funcao post');
     const token = await api.post('login', data);
+    console.log('front - depois da funcao post');
     console.log(token);
     reset();
   }
+
   return (
     <>
       <Header />
