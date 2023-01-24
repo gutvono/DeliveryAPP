@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Logo from '../images/logo2.svg';
 
 function Header(props) {
@@ -19,5 +20,10 @@ function Header(props) {
     </header>
   );
 }
+
+Header.propTypes = {
+  img: PropTypes.string,
+  username: PropTypes.string,
+}.isRequired;
 
 export default Header;
