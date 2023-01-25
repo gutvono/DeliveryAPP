@@ -37,15 +37,14 @@ function Register() {
     if (userLocalStorage) localStorage.removeItem('user');
   }, [name, email, password]);
 
-  async function handleRegister(body) {
-    await api.post('register', body)
+  function handleRegister(body) {
+    api.post('register', body)
       .then(({ data: { response } }) => {
         console.log(response);
         navigate('/customer/products');
       })
-      .catch(({ response: { data: { message }, status } }) => {
+      .catch(({ response: { data: { message } } }) => {
         setMessageErr(message);
-        console.log(message, status);
         reset();
       });
   }

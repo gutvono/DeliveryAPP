@@ -31,15 +31,16 @@ function Login() {
     }
   }, [email, password]);
 
-  async function handleLogin(data) {
-    const number = 399;
-    const token = await api.post('login', data).then(({ message, status }) => {
-      console.log(status, message);
-      if (status > number) setMessageErr(message);
-    });
-    console.log(token.data);
-    reset();
-    if (!messageErr)navigate('/customer/products');
+  function handleLogin(data) {
+    api.post('login', data)
+      .then((res) => {
+        console.log(res);
+        navigate('/customer/products');
+      })
+      .catch(({ response: { data: { message } } }) => {
+        setMessageErr(message);
+        reset();
+      });
   }
 
   return (
