@@ -4,9 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useState, useEffect } from 'react';
 import api from '../service/api';
-import Header from '../components/Header';
-import blobs from '../images/blobs.svg';
-import delivery from '../images/delivery.svg';
 
 const six = 6;
 const schema = z.object({
@@ -18,7 +15,7 @@ function Login() {
   const [disableBtn, setDisableBtn] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [messageErr, setMessageErr] = useState('');
+  // const [messageErr, setMessageErr] = useState('');
   const { register, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
   });
@@ -33,7 +30,6 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
-    console.log('front - antes da funcao post');
     const token = await api.post('login', data);
     console.log('front - depois da funcao post');
     console.log(token);
@@ -42,7 +38,7 @@ function Login() {
 
   return (
     <>
-      <Header />
+      <header>Logo</header>
 
       <main className="max-w-[1124px] w-full mt-20  mx-auto flex justify-between items-center px-10">
         <section className="w-[1/2] ">
@@ -88,7 +84,7 @@ function Login() {
               data-testid="common_login__input-password"
             />
             <button
-              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500 p-2 w-full rounded disabled:bg-green-700  "
+              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500 p-2 w-full rounded disabled:bg-green-700"
               type="submit"
               data-testid="common_login__button-login"
               disabled={ disableBtn }
