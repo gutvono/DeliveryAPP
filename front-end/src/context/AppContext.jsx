@@ -1,6 +1,7 @@
-import { createContext, useState, useMemo } from 'react';
+import { createContext, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { produce } from 'immer';
+import api from '../service/api';
 
 export const AppContext = createContext();
 
@@ -76,6 +77,11 @@ export function AppProvider({ children }) {
   const [products, setProducts] = useState(mock);
   const [productsToCart, setProductsToCart] = useState([]);
 
+  const getProducts = async () => {
+    const result = await api.get('products');
+    setProducts(result.data);
+  };
+
   const cartOrdersTotalPrice = productsToCart.reduce((acc, item) => acc + item.price
    * item.quantityCoffee, 0);
 
@@ -94,11 +100,15 @@ export function AppProvider({ children }) {
     console.log(productsToCart);
   };
 
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   const value = useMemo(() => ({
     products,
     addProductToCart,
     cartOrdersTotalPrice,
-    setProducts,
+
   }), [products]);
 
   return (

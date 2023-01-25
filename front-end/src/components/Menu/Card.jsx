@@ -30,6 +30,8 @@ function Card(props) {
       <img
         src={ urlImage }
         alt={ name }
+        width={ 250 }
+        height={ 250 }
         data-testid={ `customer_products__img-card-bg-image-${id}` }
       />
       <h3>{name}</h3>
