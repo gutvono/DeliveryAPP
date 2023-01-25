@@ -1,23 +1,61 @@
-import Logo from '../images/logo2.svg';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-function Header(props) {
-  // eslint-disable-next-line react/prop-types
-  const { img, username } = props;
+function Header({ requests, products, user }) {
   return (
-    <header className="max-w-[1100px] flex items-center justify-between mx-auto p-8">
-      <a className="flex items-center justify-center gap-4" href="/">
-        <img src={ Logo } alt="" />
-        <h2 className="text-gray-200 font-semibold text-xl">App Delivery</h2>
-      </a>
+    <header className="max-w-[1100px] flex items-center justify-between mx-auto ">
+
+      <Link
+        className="ColorTextDark"
+        to="/customer/products"
+      >
+        <h2
+          data-testid="customer_products__element-navbar-link-products"
+        >
+          { products }
+        </h2>
+      </Link>
+      <Link
+        className="flex items-center justify-center w-[32rem] bg-green-800"
+        to="/customer/orders"
+      >
+        <h2
+          data-testid="customer_products__element-navbar-link-orders"
+          className="  text-gray-100 p-[16px]"
+        >
+          {requests}
+        </h2>
+      </Link>
 
       <div
-        className="flex items-center justify-center gap-2 text-gray-200"
+        className="
+        flex items-center justify-center
+         text-gray-200 w-[10rem] bg-purple-600 p-[20px]"
       >
-        <img className="w-8 rounded-full" src={ img } alt={ username } />
-        <span className="text-xs text-green-500">{username}</span>
+        <span
+          data-testid="customer_products__element-navbar-user-full-name"
+          className="text-xs text-gray-100"
+        >
+          { user }
+        </span>
       </div>
+
+      <Link
+        to="/login"
+        type="button"
+        className="flex items-center justify-center
+        text-gray-200 w-[5rem] bg-blue-600 p-[16px]"
+        data-testid="customer_products__element-navbar-link-logout"
+      >
+        Sair
+      </Link>
     </header>
   );
 }
-
 export default Header;
+
+Header.propTypes = {
+  requests: PropTypes.string.isRequired,
+  products: PropTypes.string.isRequired,
+  user: PropTypes.string.isRequired,
+};
