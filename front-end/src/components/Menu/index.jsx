@@ -11,7 +11,7 @@ function Menu() {
     event.preventDefault();
     navigate('/customer/checkout');
   };
-
+  
   return (
     <section>
       <button

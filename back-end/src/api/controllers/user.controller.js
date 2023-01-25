@@ -1,15 +1,24 @@
 const service = require('../services/user.service');
 
 async function userLogin(req, res) {
-  console.log('controller');
   const userData = req.body;
-  const { token, error } = await service.userLogin(userData);
+  const { userInfo, error } = await service.userLogin(userData);
   if (error) {
     return res.status(404).json({ message: 'Invalid email or password' });
   }
-  res.status(200).json({ token });
+  res.status(200).json(userInfo);
+}
+
+async function userRegister(req, res) {
+  const userData = req.body;
+  const { response, error } = await service.userRegister(userData);
+  if (error) {
+    return res.status(error.status).json({ message: error.message });
+  }
+  res.status(201).json({ response });
 }
 
 module.exports = {
   userLogin,
+  userRegister,
 };

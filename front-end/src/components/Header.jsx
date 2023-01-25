@@ -52,7 +52,6 @@ function Header({ requests, products, user }) {
     </header>
   );
 }
-
 export default Header;
 
 Header.propTypes = {
