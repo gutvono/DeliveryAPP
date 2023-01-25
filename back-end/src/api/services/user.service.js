@@ -9,7 +9,7 @@ async function userLogin({ email, password }) {
     return { error: { status: 404, message: 'User not found' } };
   }
   const token = createToken({ email, password, role: user.role });
-  return { token };
+  return { userInfo: { name: user.name, email, role: user.role, token } };
 }
 
 module.exports = {
