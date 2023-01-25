@@ -15,7 +15,7 @@ const schema = z.object({
   password: z.string().min(six),
 });
 
-export default function Register() {
+function Register() {
   const [disableBtn, setDisableBtn] = useState(true);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -111,3 +111,5 @@ Register.propTypes = {
   password: PropTypes.string,
   messageErr: PropTypes.string,
 }.isRequired;
+
+export default Register;

@@ -19,8 +19,8 @@ function Login() {
   const [disableBtn, setDisableBtn] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
   const [messageErr, setMessageErr] = useState('');
+  const navigate = useNavigate();
   const { register, handleSubmit, reset } = useForm({
     resolver: zodResolver(schema),
   });
@@ -133,7 +133,7 @@ function Login() {
   );
 }
 
-Register.propTypes = {
+Login.propTypes = {
   disableBtn: PropTypes.bool,
   email: PropTypes.string,
   password: PropTypes.string,
