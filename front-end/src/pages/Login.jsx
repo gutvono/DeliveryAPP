@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -33,10 +32,13 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
-    const token = await api.post('/login', data);
+    console.log('front - antes da funcao post');
+    const token = await api.post('login', data);
+    console.log('front - depois da funcao post');
     console.log(token);
     reset();
   }
+
   return (
     <>
       <Header />
@@ -59,7 +61,7 @@ function Login() {
             src={ delivery }
             width={ 450 }
             height={ 400 }
-            alt="um programador sentado em um puf com notbook"
+            alt="um programador sentado em um puf com notebook"
           />
         </section>
         <section className="w-[1/2] ">

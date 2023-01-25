@@ -1,6 +1,7 @@
 const service = require('../services/user.service');
 
 async function userLogin(req, res) {
+  console.log('controller');
   const userData = req.body;
   const { token, error } = await service.userLogin(userData);
   if (error) {
