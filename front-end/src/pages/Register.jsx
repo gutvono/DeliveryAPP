@@ -38,12 +38,9 @@ function Register() {
   }, [name, email, password]);
 
   async function handleRegister(data) {
-    await api.post('register', data).catch(({ message, status }) => {
-      setMessageErr(message);
-      console.log(status, message);
-      if (!messageErr) navigate('/customer/products');
-      reset();
-    });
+    await api.post('register', data);
+    navigate('/customer/products');
+    reset();
   }
 
   return (
