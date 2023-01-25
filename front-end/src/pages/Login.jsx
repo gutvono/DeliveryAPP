@@ -36,8 +36,9 @@ function Login() {
       setMessageErr(message);
       console.log(status, message);
     });
-    console.log(token);
+    console.log(token.data);
     reset();
+    navigate('/costumer/products');
   }
 
   return (
