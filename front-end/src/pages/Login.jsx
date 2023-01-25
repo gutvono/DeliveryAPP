@@ -5,9 +5,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from '../service/api';
-import Header from '../components/Header';
-import blobs from '../images/blobs.svg';
-import delivery from '../images/delivery.svg';
 
 const six = 6;
 const schema = z.object({
@@ -39,13 +36,12 @@ function Login() {
       setMessageErr(message);
       console.log(status, message);
     });
-    console.log(token);
     reset();
   }
 
   return (
     <>
-      <Header />
+      <header>Logo</header>
 
       <main
         className="max-w-[1124px] w-full mt-20
