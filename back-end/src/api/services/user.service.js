@@ -36,8 +36,8 @@ async function userRegister(data) {
     name: data.name, email: data.email, password: hashPassword, role: 'customer',
   })).dataValues;
 
-  const token = createToken({ email, password, role });
-  return { token };
+  // const token = createToken({ email, password, role });
+  return { response: 'Successfully registered user' };
 }
 
 async function userRegister(data) {

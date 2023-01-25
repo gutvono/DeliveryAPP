@@ -11,11 +11,11 @@ async function userLogin(req, res) {
 
 async function userRegister(req, res) {
   const userData = req.body;
-  const { token, error } = await service.userRegister(userData);
+  const { response, error } = await service.userRegister(userData);
   if (error) {
     return res.status(error.status).json({ message: error.message });
   }
-  res.status(201).json({ token });
+  res.status(201).json({ response });
 }
 
 async function userRegister(req, res) {
