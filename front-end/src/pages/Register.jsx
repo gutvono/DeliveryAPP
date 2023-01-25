@@ -38,7 +38,10 @@ function Register() {
   }, [name, email, password]);
 
   async function handleRegister(data) {
-    await api.post('register', data);
+    await api.post('register', data).catch(({ message, status }) => {
+      setMessageErr(message);
+      console.log(status, message);
+    });
     navigate('/customer/products');
     reset();
   }
