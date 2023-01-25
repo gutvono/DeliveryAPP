@@ -9,7 +9,7 @@ function RoutesApp() {
       <Route path="/" element={ <Navigate to="/login" replace /> } />
       <Route path="/login" element={ <Login /> } />
       <Route path="/register" element={ <Register /> } />
-      <Route path="/costumer/products" element={ <CustomerProducts /> } />
+      <Route path="/customer/products" element={ <CustomerProducts /> } />
     </Routes>
   );
 }

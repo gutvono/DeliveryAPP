@@ -32,13 +32,14 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
-    const token = await api.post('login', data).catch(({ message, status }) => {
-      setMessageErr(message);
+    const number = 399;
+    const token = await api.post('login', data).then(({ message, status }) => {
       console.log(status, message);
+      if (status > number) setMessageErr(message);
     });
     console.log(token.data);
     reset();
-    navigate('/costumer/products');
+    if (!messageErr)navigate('/customer/products');
   }
 
   return (
