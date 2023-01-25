@@ -1,5 +1,6 @@
 import { createContext, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { produce } from 'immer';
 
 export const AppContext = createContext();
 
@@ -73,8 +74,32 @@ export function AppProvider({ children }) {
     },
   ];
   const [products, setProducts] = useState(mock);
+  const [productsToCart, setProductsToCart] = useState([]);
 
-  const value = useMemo(() => ({ products, setProducts }), [products]);
+  const cartOrdersTotalPrice = productsToCart.reduce((acc, item) => acc + item.price
+   * item.quantityCoffee, 0);
+
+  const addProductToCart = (product) => {
+    const checkIfProductsExists = productsToCart.findIndex(
+      (cart) => cart.id === product.id,
+    );
+    const newProduct = produce(productsToCart, (draft) => {
+      if (checkIfProductsExists < 0) {
+        draft.push(product);
+      } else {
+        draft[checkIfProductsExists].quantityProduct += product.quantityProduct;
+      }
+    });
+    setProductsToCart(newProduct);
+    console.log(productsToCart);
+  };
+
+  const value = useMemo(() => ({
+    products,
+    addProductToCart,
+    cartOrdersTotalPrice,
+    setProducts,
+  }), [products]);
 
   return (
     <AppContext.Provider value={ value }>
