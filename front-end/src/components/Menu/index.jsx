@@ -32,6 +32,7 @@ function Menu() {
     setProducts(newProducts);
     setInput({ ...input, [data.id]: newProducts[index].quantity });
   };
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -59,6 +60,7 @@ function Menu() {
                 <div>
                   <button
                     className="text-blue-500 text-xl py-[.5rem]"
+                    data-testid={ `customer_products__input-card-quantity-${item.id}` }
                     type="button"
                     onClick={ () => {
                       if (item.quantity > 0) handleDecrementProducts(item);
@@ -68,18 +70,18 @@ function Menu() {
                   </button>
                   <input
                     type="number"
-                    data-testid={ `customer_products__input-card-quantity-${item.id}` }
                     name={ item.id }
+                    data-testid={ `customer_products__input-card-quantity-${item.id}` }
                     value={ input[item.id] }
                     onFocus={ () => setInput({ ...input, [item.id]: '' }) }
+                    onChange={ inputQuantityProducts }
                   />
 
                   <button
                     className="text-blue-500 text-xl"
+                    data-testid={ `customer_products__button-card-add-item-${item.id}` }
                     type="button"
-                    onClick={ () => {
-                      if (item.quantity > 0) handleIncrementProducts(item);
-                    } }
+                    onClick={ () => handleIncrementProducts(item) }
                   >
                     +
                   </button>
