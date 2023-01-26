@@ -19,7 +19,6 @@ export function AppProvider({ children }) {
     const result = await api.get('products');
     setProducts(result.data);
   };
-  console.log(productsToCart);
   const cartOrdersTotalPrice = productsToCart
     .reduce((acc, item) => acc + Number(item.price) * item.quantityProducts, 0);
 

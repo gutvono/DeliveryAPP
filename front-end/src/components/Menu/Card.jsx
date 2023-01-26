@@ -7,8 +7,6 @@ function Card({ product }) {
   const [quantityProducts, setQuantityProducts] = useState(0);
   const { addProductToCart, productsToCart } = useContext(AppContext);
 
-  console.log(id);
-
   useEffect(() => {
     const qtd = productsToCart.find((item) => item.id === id);
     if (qtd === undefined) return 0;
@@ -56,10 +54,10 @@ function Card({ product }) {
               -
             </button>
             <input
-              type="number"
+              type="string"
               data-testid={ `customer_products__input-card-quantity-${id}` }
               value={ quantityProducts }
-              onChange={ ({ target: { value } }) => setQuantityProducts(value) }
+              onChange={ ({ target: { value } }) => setQuantityProducts(Number(value)) }
             />
             <button
               className="text-blue-500 text-xl"
