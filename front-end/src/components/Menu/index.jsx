@@ -11,6 +11,10 @@ function Menu() {
     event.preventDefault();
     navigate('/customer/checkout');
   };
+  const priceFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
 
   return (
     <section>
@@ -21,7 +25,7 @@ function Menu() {
         onClick={ handleRedirectCheckout }
       >
         <p>
-          { `Total: R$ ${cartOrdersTotalPrice}` }
+          { `Total:${priceFormatter.format(cartOrdersTotalPrice)}` }
         </p>
       </button>
       <div>

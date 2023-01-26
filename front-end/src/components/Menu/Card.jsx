@@ -29,7 +29,6 @@ function Card({ product }) {
         quantityProducts,
       };
       addProductToCart(productToCart);
-      setQuantityProducts(0);
     }
   };
   useEffect(() => {
