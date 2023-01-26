@@ -1,7 +1,5 @@
 import PropTypes from 'prop-types';
-import Logo from '../images/logo2.svg';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 function Header({ requests, products, user }) {
   return (
@@ -56,14 +54,9 @@ function Header({ requests, products, user }) {
 }
 
 Header.propTypes = {
-  img: PropTypes.string,
-  username: PropTypes.string,
+  requests: PropTypes.string,
+  products: PropTypes.string,
+  user: PropTypes.string,
 }.isRequired;
 
 export default Header;
-
-Header.propTypes = {
-  requests: PropTypes.string.isRequired,
-  products: PropTypes.string.isRequired,
-  user: PropTypes.string.isRequired,
-};
