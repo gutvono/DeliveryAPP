@@ -37,23 +37,23 @@ function Register() {
     if (userLocalStorage) localStorage.removeItem('user');
   }, [name, email, password]);
 
-  async function handleRegister(data) {
-    await api.post('register', data).catch(({ message, status }) => {
-      setMessageErr(message);
-      console.log(status, message);
-      if (!messageErr) navigate('/customer/products');
-      reset();
-    });
+  function handleRegister(body) {
+    api.post('register', body)
+      .then(({ data: { response } }) => {
+        console.log(response);
+        navigate('/customer/products');
+      })
+      .catch(({ response: { data: { message } } }) => {
+        setMessageErr(message);
+        reset();
+      });
   }
 
   return (
     <>
       <Header />
-
       <main>
-
         <section className="w-[1/2] ">
-
           <form
             className="flex flex-col items-center justify-center gap-4 text-gray-200"
             onSubmit={ handleSubmit(handleRegister) }
