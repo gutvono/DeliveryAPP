@@ -32,11 +32,15 @@ function Login() {
   }, [email, password]);
 
   async function handleLogin(data) {
-    const token = await api.post('login', data).catch(({ message, status }) => {
-      setMessageErr(message);
-      console.log(status, message);
-    });
-    reset();
+    api.post('login', data)
+      .then((res) => {
+        console.log(res);
+        navigate('/customer/products');
+      })
+      .catch(({ response: { data: { message } } }) => {
+        setMessageErr(message);
+        reset();
+      });
   }
 
   return (
@@ -48,24 +52,11 @@ function Login() {
         mx-auto flex justify-between items-center px-10"
       >
         <section className="w-[1/2] ">
-          <img
-            className="absolute bottom-0 right-0 scale-x-[-1] opacity-80 -z-10"
-            src={ blobs }
-            alt="bolhas"
-            width={ 350 }
-            height={ 350 }
-          />
           <h1 className="text-3xl font-bold text-gray-200 mb-10">
             O app com a entrega mais rapida
             <br />
             do Brasil
           </h1>
-          <img
-            src={ delivery }
-            width={ 450 }
-            height={ 400 }
-            alt="um programador sentado em um puf com notebook"
-          />
         </section>
         <section className="w-[1/2] ">
 
