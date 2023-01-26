@@ -1,9 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { AppContext } from '../../context/AppContext';
 
-function Card(props) {
-  const { id, name, price, urlImage } = props;
+function Card({ product }) {
+  const { id, name, price, urlImage } = product;
   const [quantityProducts, setQuantityProducts] = useState(0);
   const { addProductToCart } = useContext(AppContext);
 
@@ -15,14 +15,26 @@ function Card(props) {
     setQuantityProducts((state) => state - 1);
   };
 
-  const handleAddProductToCart = () => {
-    const productToCart = {
-      ...props,
-      quantityProducts,
-    };
-    addProductToCart(productToCart);
+  const handleChangeQuantity = ({ target }) => {
+    const newQuantity = parseInt(target.value, 10);
+    if (Number.isNaN(newQuantity)) {
+      return setQuantityProducts(0);
+    }
+    setQuantityProducts(newQuantity);
   };
-
+  const handleAddProductToCart = () => {
+    if (quantityProducts !== 0) {
+      const productToCart = {
+        ...product,
+        quantityProducts,
+      };
+      addProductToCart(productToCart);
+      setQuantityProducts(0);
+    }
+  };
+  useEffect(() => {
+    handleAddProductToCart();
+  }, [handleAddProductToCart]);
   return (
     <div
       key={ id }
@@ -55,7 +67,7 @@ function Card(props) {
               type="number"
               data-testid={ `customer_products__input-card-quantity-${id}` }
               value={ quantityProducts }
-              onChange={ quantityProducts }
+              onChange={ handleChangeQuantity }
             />
 
             <button
@@ -64,12 +76,6 @@ function Card(props) {
               onClick={ handleIncrementProducts }
             >
               +
-            </button>
-            <button
-              type="button"
-              onClick={ handleAddProductToCart }
-            >
-              Add Cart
             </button>
           </div>
         </div>
@@ -81,8 +87,10 @@ function Card(props) {
 export default Card;
 
 Card.propTypes = {
-  id: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  urlImage: PropTypes.string.isRequired,
+  product: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    urlImage: PropTypes.string.isRequired,
+  }).isRequired,
 };
