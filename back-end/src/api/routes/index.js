@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const userRoutes = require('./user.routes');
 const productRoutes = require('./product.routes');
+const saleRoutes = require('./sale.routes');
 
 const routes = Router();
 
@@ -11,5 +12,8 @@ routes.use(userRoutes);
 
 // Rotas referentes a manipulação de dados de produtos
 routes.use(productRoutes);
+
+// Rotas referentes a manipulação de dados de vendas
+routes.use(saleRoutes);
 
 module.exports = routes;
