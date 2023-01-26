@@ -31,10 +31,10 @@ function Login() {
     }
   }, [email, password]);
 
-  function handleLogin(data) {
-    api.post('login', data)
-      .then((res) => {
-        console.log(res);
+  function handleLogin(body) {
+    api.post('login', body)
+      .then(({ data }) => {
+        localStorage.setItem('userInfo', JSON.stringify(data));
         navigate('/customer/products');
       })
       .catch(({ response: { data: { message } } }) => {
@@ -46,19 +46,11 @@ function Login() {
   return (
     <>
       <header>Logo</header>
-
       <main
         className="max-w-[1124px] w-full mt-20
         mx-auto flex justify-between items-center px-10"
       >
         <section className="w-[1/2] ">
-          <img
-            className="absolute bottom-0 right-0 scale-x-[-1] opacity-80 -z-10"
-            src={ blobs }
-            alt="bolhas"
-            width={ 350 }
-            height={ 350 }
-          />
           <h1 className="text-3xl font-bold text-gray-200 mb-10">
             O app com a entrega mais rapida
             <br />
@@ -66,7 +58,6 @@ function Login() {
           </h1>
         </section>
         <section className="w-[1/2] ">
-
           <form
             className="flex flex-col items-center justify-center gap-4 text-gray-200"
             onSubmit={ handleSubmit(handleLogin) }
