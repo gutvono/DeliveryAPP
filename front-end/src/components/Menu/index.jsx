@@ -11,7 +11,7 @@ function Menu() {
     event.preventDefault();
     navigate('/customer/checkout');
   };
-  
+
   return (
     <section>
       <button
@@ -28,9 +28,7 @@ function Menu() {
         { products.map((item) => (
           <Card
             key={ item.id }
-            name={ item.name }
-            price={ item.price }
-            urlImage={ item.urlImage }
+            product={ item }
           />
         ))}
       </div>
