@@ -34,7 +34,7 @@ function Login() {
   function handleLogin(body) {
     api.post('login', body)
       .then(({ data }) => {
-        localStorage.setItem('userInfo', JSON.stringify(data));
+        localStorage.setItem('user', JSON.stringify(data));
         navigate('/customer/products');
       })
       .catch(({ response: { data: { message } } }) => {

@@ -1,7 +1,9 @@
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function Header({ requests, products, user }) {
+  const navigate = useNavigate();
+
   return (
     <header className="max-w-[1100px] flex items-center justify-between mx-auto ">
 
@@ -39,16 +41,16 @@ function Header({ requests, products, user }) {
           { user }
         </span>
       </div>
-
-      <Link
-        to="/login"
+      <button
         type="button"
-        className="flex items-center justify-center
-        text-gray-200 w-[5rem] bg-blue-600 p-[16px]"
+        onClick={ () => {
+          navigate('/');
+          localStorage.removeItem('user');
+        } }
         data-testid="customer_products__element-navbar-link-logout"
       >
-        Sair
-      </Link>
+        Log-out
+      </button>
     </header>
   );
 }
