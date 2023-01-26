@@ -96,7 +96,7 @@ function Register() {
             </button>
           </form>
           {messageErr && (
-            <p data-testid="common_register__element-invalid-register">{messageErr}</p>
+            <p data-testid="common_register__element-invalid_register">{messageErr}</p>
           )}
         </section>
       </main>

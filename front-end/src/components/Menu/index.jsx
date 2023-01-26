@@ -1,92 +1,37 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Card from './Card';
 import { AppContext } from '../../context/AppContext';
 
 function Menu() {
-  const { products, setProducts } = useContext(AppContext);
+  const { products, cartOrdersTotalPrice } = useContext(AppContext);
+  const navigate = useNavigate();
 
-  const [input, setInput] = useState({});
-
-  const getProducts = () => {
-    const array = products;
-    const arrayProducts = array.map((item) => ({ ...item, quantity: 0 }));
-    let obj = {};
-    array.forEach((product) => {
-      obj = { ...obj, [product.id]: '0' };
-    });
-    setInput(obj);
-    setProducts(arrayProducts);
+  const handleRedirectCheckout = async (event) => {
+    event.preventDefault();
+    navigate('/customer/checkout');
   };
-
-  const handleIncrementProducts = (data) => {
-    const newProducts = [...quantityProducts];
-    const index = newProducts.indexOf((item) => item.id === data.id);
-    newProducts[index].quantity += 1;
-    setProducts(newProducts);
-    setInput({ ...input, [data.id]: newProducts[index].quantity });
-  };
-
-  const handleDecrementProducts = (data) => {
-    const newProducts = [...quantityProducts];
-    const index = newProducts.indexOf((item) => item.id === data.id);
-    newProducts[index].quantity -= 1;
-    setProducts(newProducts);
-    setInput({ ...input, [data.id]: newProducts[index].quantity });
-  };
-  useEffect(() => {
-    getProducts();
-  }, []);
-  console.log(products);
+  
   return (
     <section>
+      <button
+        dataTestId="customer_products__button-cart"
+        type="button"
+        name="orders"
+        onClick={ handleRedirectCheckout }
+      >
+        <p>
+          { `Total: R$ ${cartOrdersTotalPrice}` }
+        </p>
+      </button>
       <div>
         { products.map((item) => (
-          <div
+          <Card
             key={ item.id }
-          >
-            <img
-              src={ item.urlImage }
-              alt={ item.name }
-              data-testid={ `customer_products__img-card-bg-image-${item.id}` }
-            />
-            <h3>{item.name}</h3>
-            <div>
-              <strong
-                data-testid={ `customer_products__element-card-price-${item.id}` }
-              >
-                { item.price }
-              </strong>
-              <div>
-                <div>
-                  <button
-                    className="text-blue-500 text-xl py-[.5rem]"
-                    type="button"
-                    onClick={ () => {
-                      if (item.quantity > 0) handleDecrementProducts(item);
-                    } }
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    data-testid={ `customer_products__input-card-quantity-${item.id}` }
-                    name={ item.id }
-                    value={ input[item.id] }
-                    onFocus={ () => setInput({ ...input, [item.id]: '' }) }
-                  />
-
-                  <button
-                    className="text-blue-500 text-xl"
-                    type="button"
-                    onClick={ () => {
-                      if (item.quantity > 0) handleIncrementProducts(item);
-                    } }
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
+            name={ item.name }
+            price={ item.price }
+            urlImage={ item.urlImage }
+          />
         ))}
       </div>
     </section>

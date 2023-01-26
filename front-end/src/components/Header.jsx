@@ -54,9 +54,8 @@ function Header({ requests, products, user }) {
 }
 
 Header.propTypes = {
-  requests: PropTypes.string,
-  products: PropTypes.string,
-  user: PropTypes.string,
+  img: PropTypes.string,
+  username: PropTypes.string,
 }.isRequired;
 
 export default Header;
