@@ -39,8 +39,9 @@ function Register() {
 
   function handleRegister(body) {
     api.post('register', body)
-      .then(({ data: { response } }) => {
-        console.log(response);
+      .then(({ data }) => {
+        localStorage.setItem('user', JSON.stringify(data));
+        console.log(data);
         navigate('/customer/products');
       })
       .catch(({ response: { data: { message } } }) => {
