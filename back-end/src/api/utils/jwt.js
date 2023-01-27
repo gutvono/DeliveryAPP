@@ -11,7 +11,7 @@ const createToken = (data) => {
 
 const validateToken = (token) => {
   try {
-     const data = jwt.verify(token, process.env.JWT_SECRET  || 'secret_key');
+     const data = jwt.verify(token, process.env.JWT_SECRET || 'secret_key');
       
       return { type: null, result: data };
   } catch (_error) {
