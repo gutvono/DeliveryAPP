@@ -7,13 +7,20 @@ function Card({ product }) {
   const [quantityProducts, setQuantityProducts] = useState(0);
   const { addProductToCart, productsToCart } = useContext(AppContext);
 
-  console.log(id);
-
   useEffect(() => {
     const qtd = productsToCart.find((item) => item.id === id);
     if (qtd === undefined) return 0;
     setQuantityProducts(qtd.quantityProducts);
   }, []);
+
+  function rmvProduct() {
+    if (quantityProducts === 0) {
+      const cart = JSON.parse(localStorage.getItem('carrinho'));
+      const rmv = cart.find((item) => item.id === id);
+      const newArr = cart.filter((item) => item.id !== rmv.id);
+      localStorage.setItem('carrinho', JSON.stringify(newArr));
+    }
+  }
 
   useEffect(() => {
     if (quantityProducts !== 0) {
@@ -23,6 +30,7 @@ function Card({ product }) {
       };
       addProductToCart(productToCart);
     }
+    rmvProduct();
   }, [quantityProducts]);
 
   return (
@@ -56,10 +64,10 @@ function Card({ product }) {
               -
             </button>
             <input
-              type="number"
+              type="string"
               data-testid={ `customer_products__input-card-quantity-${id}` }
               value={ quantityProducts }
-              onChange={ ({ target: { value } }) => setQuantityProducts(value) }
+              onChange={ ({ target }) => setQuantityProducts(Number(target.value)) }
             />
             <button
               className="text-blue-500 text-xl"
