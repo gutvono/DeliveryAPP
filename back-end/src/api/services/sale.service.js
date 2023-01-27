@@ -51,12 +51,11 @@ async function registerNewSale({ products, details }, token) {
   const error = validations.find((curr) => curr && curr.error);
   if (error) return error;
   validations.forEach((obj) => { saleToCreate = Object.assign(saleToCreate, obj); });
-  console.log(saleToCreate);
   const { id: saleId } = await Sales.create(saleToCreate);
   await Promise.all(products.map(async ({ id, qtd }) => {
     await SalesProducts.create({ saleId, productId: id, quantity: qtd });
   }));
-  return { success: { message: 'Successfully registered sale' } };
+  return { success: { saleId } };
 }
 
 module.exports = {
