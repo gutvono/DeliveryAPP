@@ -52,11 +52,8 @@ function Register() {
   return (
     <>
       <Header />
-
       <main>
-
         <section className="w-[1/2] ">
-
           <form
             className="flex flex-col items-center justify-center gap-4 text-gray-200"
             onSubmit={ handleSubmit(handleRegister) }

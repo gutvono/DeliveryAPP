@@ -18,15 +18,14 @@ function Menu() {
 
   return (
     <section>
+      <p>{`Total: ${priceFormatter.format(cartOrdersTotalPrice).replace('.', ',')}`}</p>
       <button
-        dataTestId="customer_products__button-cart"
+        data-testid="customer_products__button-cart"
         type="button"
         name="orders"
         onClick={ handleRedirectCheckout }
       >
-        <p>
-          { `Total:${priceFormatter.format(cartOrdersTotalPrice)}` }
-        </p>
+        Carrinho
       </button>
       <div>
         { products.map((item) => (

@@ -40,7 +40,13 @@ async function userRegister(data) {
   return { response: 'Successfully registered user' };
 }
 
+async function getSellers() {
+  const sellers = await Users.findAll({ where: { role: 'seller' } });
+  return { sellers };
+}
+
 module.exports = {
   userLogin,
   userRegister,
+  getSellers,
 };

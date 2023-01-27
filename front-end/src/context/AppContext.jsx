@@ -22,7 +22,6 @@ export function AppProvider({ children }) {
   console.log(productsToCart);
   const cartOrdersTotalPrice = productsToCart
     .reduce((acc, item) => acc + Number(item.price) * item.quantityProducts, 0);
-  console.log(cartOrdersTotalPrice);
 
   const addProductToCart = (product) => {
     const checkIfProductsExists = productsToCart.findIndex(
@@ -33,27 +32,27 @@ export function AppProvider({ children }) {
       if (checkIfProductsExists < 0) {
         draft.push(product);
       } else {
-        draft[checkIfProductsExists].quantityProducts += product.quantityProducts;
+        draft[checkIfProductsExists].quantityProducts = product.quantityProducts;
       }
     });
 
     setProductsToCart(newProduct);
   };
 
-  const handleQuantityProductsInCart = (productId, type) => {
-    const newProduct = produce(productsToCart, (draft) => {
-      const productExists = productsToCart.findIndex(
-        (product) => product.id === productId,
-      );
-      if (productExists >= 0) {
-        const order = draft[productExists];
-        draft[productExists].quantityProducts = type === 'increase'
-          ? order.quantityProducts - 1
-          : order.quantityProducts + 1;
-      }
-    });
-    setProductsToCart(newProduct);
-  };
+  // const handleQuantityProductsInCart = (productId, type) => {
+  //   const newProduct = produce(productsToCart, (draft) => {
+  //     const productExists = productsToCart.findIndex(
+  //       (product) => product.id === productId,
+  //     );
+  //     if (productExists >= 0) {
+  //       const order = draft[productExists];
+  //       draft[productExists].quantityProducts = type === 'increase'
+  //         ? order.quantityProducts - 1
+  //         : order.quantityProducts + 1;
+  //     }
+  //   });
+  //   setProductsToCart(newProduct);
+  // };
 
   const removeProductFromCart = (productId) => {
     const findProduct = produce(productsToCart, (draft) => {
@@ -69,8 +68,7 @@ export function AppProvider({ children }) {
   };
 
   useEffect(() => {
-    const stateJson = JSON.stringify(productsToCart);
-    localStorage.setItem('carrinho', stateJson);
+    localStorage.setItem('carrinho', JSON.stringify(productsToCart));
     getProducts();
   }, [productsToCart]);
 
@@ -79,11 +77,13 @@ export function AppProvider({ children }) {
     addProductToCart,
     cartOrdersTotalPrice,
     productsToCart,
-
+    removeProductFromCart,
   }), [
     products,
     addProductToCart,
-    productsToCart]);
+    productsToCart,
+    removeProductFromCart,
+  ]);
 
   return (
     <AppContext.Provider value={ value }>
