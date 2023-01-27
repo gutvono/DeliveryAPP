@@ -19,7 +19,8 @@ export function AppProvider({ children }) {
     const result = await api.get('products');
     setProducts(result.data);
   };
-  const cartOrdersTotalPrice = productsToCart
+  const cartLS = JSON.parse(localStorage.getItem('carrinho'));
+  const cartOrdersTotalPrice = cartLS
     .reduce((acc, item) => acc + Number(item.price) * item.quantityProducts, 0);
 
   const addProductToCart = (product) => {

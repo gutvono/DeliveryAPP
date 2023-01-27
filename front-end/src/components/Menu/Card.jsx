@@ -13,6 +13,15 @@ function Card({ product }) {
     setQuantityProducts(qtd.quantityProducts);
   }, []);
 
+  function rmvProduct() {
+    if (quantityProducts === 0) {
+      const cart = JSON.parse(localStorage.getItem('carrinho'));
+      const rmv = cart.find((item) => item.id === id);
+      const newArr = cart.filter((item) => item.id !== rmv.id);
+      localStorage.setItem('carrinho', JSON.stringify(newArr));
+    }
+  }
+
   useEffect(() => {
     if (quantityProducts !== 0) {
       const productToCart = {
@@ -21,6 +30,7 @@ function Card({ product }) {
       };
       addProductToCart(productToCart);
     }
+    rmvProduct();
   }, [quantityProducts]);
 
   return (
@@ -57,7 +67,7 @@ function Card({ product }) {
               type="string"
               data-testid={ `customer_products__input-card-quantity-${id}` }
               value={ quantityProducts }
-              onChange={ ({ target: { value } }) => setQuantityProducts(Number(value)) }
+              onChange={ ({ target }) => setQuantityProducts(Number(target.value)) }
             />
             <button
               className="text-blue-500 text-xl"
