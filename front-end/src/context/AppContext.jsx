@@ -19,8 +19,8 @@ export function AppProvider({ children }) {
     const result = await api.get('products');
     setProducts(result.data);
   };
-  const cartLS = JSON.parse(localStorage.getItem('carrinho'));
-  const cartOrdersTotalPrice = cartLS
+  // const cartLS = JSON.parse(localStorage.getItem('carrinho'));
+  let cartOrdersTotalPrice = productsToCart
     .reduce((acc, item) => acc + Number(item.price) * item.quantityProducts, 0);
 
   const addProductToCart = (product) => {
@@ -42,6 +42,10 @@ export function AppProvider({ children }) {
   useEffect(() => {
     localStorage.setItem('carrinho', JSON.stringify(productsToCart));
     getProducts();
+    console.log(productsToCart);
+    if (productsToCart.length === 0) {
+      cartOrdersTotalPrice = 0;
+    }
   }, [productsToCart]);
 
   const value = useMemo(() => ({

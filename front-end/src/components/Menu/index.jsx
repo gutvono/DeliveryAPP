@@ -24,9 +24,12 @@ function Menu() {
         type="button"
         name="orders"
         onClick={ handleRedirectCheckout }
+        disabled={ cartOrdersTotalPrice === 0 }
       >
         Carrinho
-        {`Total: ${priceFormatter.format(cartOrdersTotalPrice).replace('.', ',')}`}
+        <p data-testid="customer_products__checkout-bottom-value">
+          {`Total: ${priceFormatter.format(cartOrdersTotalPrice).replace('.', ',')}`}
+        </p>
       </button>
       <div>
         { products.map((item) => (
