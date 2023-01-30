@@ -14,12 +14,10 @@ function Card({ product }) {
   }, []);
 
   function rmvProduct() {
-    if (quantityProducts === 0) {
-      const cart = JSON.parse(localStorage.getItem('carrinho'));
-      const rmv = cart.find((item) => item.id === id);
-      const newArr = cart.filter((item) => item.id !== rmv.id);
-      localStorage.setItem('carrinho', JSON.stringify(newArr));
-    }
+    const cart = JSON.parse(localStorage.getItem('carrinho'));
+    const rmv = cart.find((item) => item.id === id);
+    const newArr = cart.filter((item) => item.id !== rmv.id);
+    localStorage.setItem('carrinho', JSON.stringify(newArr));
   }
 
   useEffect(() => {
@@ -57,7 +55,7 @@ function Card({ product }) {
             <button
               className="text-blue-500 text-xl py-[.5rem]"
               type="button"
-              data-testid={ `customer_products__button-card-add-item-${id}` }
+              data-testid={ `customer_products__button-card-rm-item-${id}` }
               onClick={ () => setQuantityProducts(Number(quantityProducts) - 1) }
               disabled={ quantityProducts < 1 }
             >
@@ -72,7 +70,7 @@ function Card({ product }) {
             <button
               className="text-blue-500 text-xl"
               type="button"
-              data-testid={ `customer_products__button-card-rm-item-${id}` }
+              data-testid={ `customer_products__button-card-add-item-${id}` }
               onClick={ () => setQuantityProducts(Number(quantityProducts) + 1) }
             >
               +

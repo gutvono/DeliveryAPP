@@ -5,6 +5,10 @@ import { AppContext } from '../context/AppContext';
 function CardCheckout({ product, i }) {
   const { removeProductFromCart } = useContext(AppContext);
   const totalPrice = product.price * product.quantityProducts;
+  const priceFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
 
   const handleRemoveProduct = () => {
     removeProductFromCart(product.id);
@@ -38,7 +42,7 @@ function CardCheckout({ product, i }) {
         data-testid={ `customer_checkout__element-order-table-sub-total-${i}` }
       >
         subTotal
-        {totalPrice}
+        {priceFormatter.format(totalPrice).replace('.', ',')}
       </p>
       <button
         onClick={ handleRemoveProduct }
