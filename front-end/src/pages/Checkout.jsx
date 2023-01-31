@@ -47,7 +47,7 @@ function Checkout() {
           <strong
             data-testid="customer_checkout__element-order-total-price"
           >
-            {`TotalPrice R$ ${cartOrdersTotalPrice}`}
+            {cartOrdersTotalPrice.toString().replace('.', ',')}
           </strong>
         </div>
         <p>Detalhes e endereço para entrega</p>

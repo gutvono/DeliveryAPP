@@ -36,7 +36,7 @@ function CardCheckout({ product, i }) {
       <p
         data-testid={ `customer_checkout__element-order-table-unit-price-${i}` }
       >
-        {product.price}
+        {product.price.replace('.', ',')}
       </p>
       <p
         data-testid={ `customer_checkout__element-order-table-sub-total-${i}` }
