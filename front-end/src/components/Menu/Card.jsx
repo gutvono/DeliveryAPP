@@ -13,15 +13,6 @@ function Card({ product }) {
     setQuantityProducts(qtd.quantityProducts);
   }, []);
 
-  function rmvProduct() {
-    if (quantityProducts === 0) {
-      const cart = JSON.parse(localStorage.getItem('carrinho'));
-      const rmv = cart.find((item) => item.id === id);
-      const newArr = cart.filter((item) => item.id !== rmv.id);
-      localStorage.setItem('carrinho', JSON.stringify(newArr));
-    }
-  }
-
   useEffect(() => {
     if (quantityProducts !== 0) {
       const productToCart = {
@@ -29,8 +20,12 @@ function Card({ product }) {
         quantityProducts,
       };
       addProductToCart(productToCart);
+    } else {
+      const cart = JSON.parse(localStorage.getItem('carrinho'));
+      const rmv = cart.find((item) => item.id === id);
+      const newArr = cart.filter((item) => item.id !== rmv.id);
+      localStorage.setItem('carrinho', JSON.stringify(newArr));
     }
-    rmvProduct();
   }, [quantityProducts]);
 
   return (

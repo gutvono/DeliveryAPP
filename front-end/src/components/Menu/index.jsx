@@ -11,7 +11,6 @@ function Menu() {
     event.preventDefault();
     navigate('/customer/checkout');
   };
-
   const priceFormatter = new Intl.NumberFormat('pt-BR', {
     style: 'currency',
     currency: 'BRL',
