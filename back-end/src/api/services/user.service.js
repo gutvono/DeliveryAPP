@@ -42,7 +42,7 @@ async function userRegister(data) {
 
 async function getSellers() {
   const sellers = (await Users.findAll({ where: { role: 'seller' } }))
-    .map(({id, name }) => ({ id, name }));
+    .map(({ id, name }) => ({ id, name }));
 
   return { sellers };
 }
