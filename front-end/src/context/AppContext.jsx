@@ -39,10 +39,37 @@ export function AppProvider({ children }) {
     setProductsToCart(newProduct);
   };
 
+  // const handleQuantityProductsInCart = (productId, type) => {
+  //   const newProduct = produce(productsToCart, (draft) => {
+  //     const productExists = productsToCart.findIndex(
+  //       (product) => product.id === productId,
+  //     );
+  //     if (productExists >= 0) {
+  //       const order = draft[productExists];
+  //       draft[productExists].quantityProducts = type === 'increase'
+  //         ? order.quantityProducts - 1
+  //         : order.quantityProducts + 1;
+  //     }
+  //   });
+  //   setProductsToCart(newProduct);
+  // };
+
+  const removeProductFromCart = (productId) => {
+    const findProduct = produce(productsToCart, (draft) => {
+      const productExists = productsToCart.findIndex(
+        (product) => product.id === productId,
+      );
+      if (productExists >= 0) {
+        draft.splice(productExists, 1);
+      }
+    });
+
+    setProductsToCart(findProduct);
+  };
+
   useEffect(() => {
     localStorage.setItem('carrinho', JSON.stringify(productsToCart));
     getProducts();
-    console.log(productsToCart);
     if (productsToCart.length === 0) {
       cartOrdersTotalPrice = 0;
     }
@@ -53,11 +80,12 @@ export function AppProvider({ children }) {
     addProductToCart,
     cartOrdersTotalPrice,
     productsToCart,
-
+    removeProductFromCart,
   }), [
     products,
     addProductToCart,
     productsToCart,
+    removeProductFromCart,
   ]);
 
   return (
