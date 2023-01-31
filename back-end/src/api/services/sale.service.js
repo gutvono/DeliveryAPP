@@ -16,7 +16,7 @@ async function validateProducts(products) {
     const selectedProduct = productsDB.find((p) => Number(p.id) === Number(id));
     totalPrice += Number(selectedProduct.price) * Number(qtd);
   });
-  return { totalPrice };
+  return { totalPrice: totalPrice.toFixed(2) };
 }
 
 async function validateSeller(id) {

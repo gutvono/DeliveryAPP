@@ -15,7 +15,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       total_price: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.STRING
       },
       delivery_address: {
         type: Sequelize.STRING
