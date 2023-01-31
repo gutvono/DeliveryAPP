@@ -8,7 +8,27 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       autoIncrement: true,
     },
-    totalPrice: DataTypes.DECIMAL,
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: {
+          tableName: 'users'
+        },
+        key: 'id'
+      },
+      field: 'user_id',
+    },
+    sellerId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: {
+          tableName: 'users'
+        },
+        key: 'id'
+      },
+      field: 'seller_id',
+    },
+    totalPrice: DataTypes.DECIMAL(9,2),
     deliveryAddress: DataTypes.STRING,
     deliveryNumber: DataTypes.STRING,
     saleDate: DataTypes.DATE,
@@ -22,13 +42,16 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   sales.associate = (models) => {
-    sales.belongsTo(
-      models.Users,
-      { foreignKey: 'id', as: 'userId' },
+    sales.hasMany(
+      models.SalesProducts,
     );
     sales.belongsTo(
       models.Users,
-      { foreignKey: 'id', as: 'sellerId' },
+      { foreignKey: 'userId' },
+    );
+    sales.belongsTo(
+      models.Users,
+      { foreignKey: 'sellerId' },
     );
   };
 

@@ -8,6 +8,12 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER
       },
+      user_id: {
+        type: Sequelize.INTEGER
+      },
+      seller_id: {
+        type: Sequelize.INTEGER
+      },
       total_price: {
         type: Sequelize.DECIMAL
       },

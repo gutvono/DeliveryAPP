@@ -1,23 +1,38 @@
 'use strict';
+
 module.exports = {
-  async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('salesProducts', {
+  async up (queryInterface, Sequelize) {
+     await queryInterface.createTable('salesProducts', { 
       sale_id: {
-        allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'sales'
+          },
+          key: 'id',
+        }
       },
       product_id: {
-        allowNull: false,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: {
+            tableName: 'products'
+          },
+          key: 'id',
+        }
       },
       quantity: {
-        type: Sequelize.INTEGER
-      },
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      }
     });
   },
-  async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('salesProducts');
+
+  async down (queryInterface, Sequelize) {
+    await queryInterface.dropTable('sales_products');
   }
 };
