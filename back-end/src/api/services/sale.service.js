@@ -13,8 +13,8 @@ async function validateProducts(products) {
   const productsDB = await Products.findAll({ attributes: ['id', 'price'] });
   let totalPrice = 0;
   products.forEach(({ id, qtd }) => {
-    const selectedProduct = productsDB.find((p) => p.id === id);
-    totalPrice += selectedProduct.price * qtd;
+    const selectedProduct = productsDB.find((p) => Number(p.id) === Number(id));
+    totalPrice += Number(selectedProduct.price) * Number(qtd);
   });
   return { totalPrice };
 }
