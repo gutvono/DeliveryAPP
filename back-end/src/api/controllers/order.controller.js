@@ -6,6 +6,12 @@ async function getAOrder(req, res) {
   res.status(200).json(order);
 }
 
+async function getAllOrders(req, res) {
+  const user = req.requestingUser;
+  
+}
+
 module.exports = {
   getAOrder,
+  getAllOrders,
 };
