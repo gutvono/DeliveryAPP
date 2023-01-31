@@ -8,7 +8,7 @@ export const AppContext = createContext();
 export function AppProvider({ children }) {
   const [products, setProducts] = useState([]);
   const [productsToCart, setProductsToCart] = useState(() => {
-    const storageStateCart = localStorage.getItem('cart');
+    const storageStateCart = localStorage.getItem('carrinho');
     if (storageStateCart) {
       return JSON.parse(storageStateCart);
     }
@@ -19,10 +19,9 @@ export function AppProvider({ children }) {
     const result = await api.get('products');
     setProducts(result.data);
   };
-  console.log(productsToCart);
-  const cartOrdersTotalPrice = productsToCart
+  // const cartLS = JSON.parse(localStorage.getItem('carrinho'));
+  let cartOrdersTotalPrice = productsToCart
     .reduce((acc, item) => acc + Number(item.price) * item.quantityProducts, 0);
-  console.log(cartOrdersTotalPrice);
 
   const addProductToCart = (product) => {
     const checkIfProductsExists = productsToCart.findIndex(
@@ -33,7 +32,7 @@ export function AppProvider({ children }) {
       if (checkIfProductsExists < 0) {
         draft.push(product);
       } else {
-        draft[checkIfProductsExists].quantityProducts += product.quantityProducts;
+        draft[checkIfProductsExists].quantityProducts = product.quantityProducts;
       }
     });
 
@@ -41,9 +40,12 @@ export function AppProvider({ children }) {
   };
 
   useEffect(() => {
-    const stateJson = JSON.stringify(productsToCart);
-    localStorage.setItem('cart', stateJson);
+    localStorage.setItem('carrinho', JSON.stringify(productsToCart));
     getProducts();
+    console.log(productsToCart);
+    if (productsToCart.length === 0) {
+      cartOrdersTotalPrice = 0;
+    }
   }, [productsToCart]);
 
   const value = useMemo(() => ({
@@ -55,7 +57,8 @@ export function AppProvider({ children }) {
   }), [
     products,
     addProductToCart,
-    productsToCart]);
+    productsToCart,
+  ]);
 
   return (
     <AppContext.Provider value={ value }>

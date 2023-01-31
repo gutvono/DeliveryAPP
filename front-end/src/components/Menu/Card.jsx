@@ -5,36 +5,34 @@ import { AppContext } from '../../context/AppContext';
 function Card({ product }) {
   const { id, name, price, urlImage } = product;
   const [quantityProducts, setQuantityProducts] = useState(0);
-  const { addProductToCart } = useContext(AppContext);
+  const { addProductToCart, productsToCart } = useContext(AppContext);
 
-  const handleIncrementProducts = () => {
-    setQuantityProducts((state) => state + 1);
-  };
+  useEffect(() => {
+    const qtd = productsToCart.find((item) => item.id === id);
+    if (qtd === undefined) return 0;
+    setQuantityProducts(qtd.quantityProducts);
+  }, []);
 
-  const handleDecrementProducts = () => {
-    setQuantityProducts((state) => state - 1);
-  };
-
-  const handleChangeQuantity = ({ target }) => {
-    const newQuantity = parseInt(target.value, 10);
-    if (Number.isNaN(newQuantity)) {
-      return setQuantityProducts(0);
+  function rmvProduct() {
+    if (quantityProducts === 0) {
+      const cart = JSON.parse(localStorage.getItem('carrinho'));
+      const rmv = cart.find((item) => item.id === id);
+      const newArr = cart.filter((item) => item.id !== rmv.id);
+      localStorage.setItem('carrinho', JSON.stringify(newArr));
     }
-    setQuantityProducts(newQuantity);
-  };
-  const handleAddProductToCart = () => {
+  }
+
+  useEffect(() => {
     if (quantityProducts !== 0) {
       const productToCart = {
         ...product,
         quantityProducts,
       };
       addProductToCart(productToCart);
-      setQuantityProducts(0);
     }
-  };
-  useEffect(() => {
-    handleAddProductToCart();
-  }, [handleAddProductToCart]);
+    rmvProduct();
+  }, [quantityProducts]);
+
   return (
     <div
       key={ id }
@@ -46,34 +44,36 @@ function Card({ product }) {
         height={ 250 }
         data-testid={ `customer_products__img-card-bg-image-${id}` }
       />
-      <h3>{name}</h3>
+      <h3 data-testid={ `customer_products__element-card-title-${id}` }>{name}</h3>
       <div>
-        <strong
+        <p
           data-testid={ `customer_products__element-card-price-${id}` }
+          style={ { fontWeight: 'bold' } }
         >
-          { price }
-        </strong>
+          { price.replace('.', ',') }
+        </p>
         <div>
           <div>
             <button
               className="text-blue-500 text-xl py-[.5rem]"
               type="button"
-              onClick={ handleDecrementProducts }
+              data-testid={ `customer_products__button-card-rm-item-${id}` }
+              onClick={ () => setQuantityProducts(Number(quantityProducts) - 1) }
               disabled={ quantityProducts < 1 }
             >
               -
             </button>
             <input
-              type="number"
+              type="string"
               data-testid={ `customer_products__input-card-quantity-${id}` }
               value={ quantityProducts }
-              onChange={ handleChangeQuantity }
+              onChange={ ({ target }) => setQuantityProducts(Number(target.value)) }
             />
-
             <button
               className="text-blue-500 text-xl"
               type="button"
-              onClick={ handleIncrementProducts }
+              data-testid={ `customer_products__button-card-add-item-${id}` }
+              onClick={ () => setQuantityProducts(Number(quantityProducts) + 1) }
             >
               +
             </button>
@@ -88,9 +88,9 @@ export default Card;
 
 Card.propTypes = {
   product: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    urlImage: PropTypes.string.isRequired,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    price: PropTypes.string,
+    urlImage: PropTypes.string,
   }).isRequired,
 };

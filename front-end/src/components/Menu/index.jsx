@@ -12,16 +12,23 @@ function Menu() {
     navigate('/customer/checkout');
   };
 
+  const priceFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
+
   return (
     <section>
       <button
-        dataTestId="customer_products__button-cart"
+        data-testid="customer_products__button-cart"
         type="button"
         name="orders"
         onClick={ handleRedirectCheckout }
+        disabled={ cartOrdersTotalPrice === 0 }
       >
-        <p>
-          { `Total: R$ ${cartOrdersTotalPrice}` }
+        Carrinho
+        <p data-testid="customer_products__checkout-bottom-value">
+          {`Total: ${priceFormatter.format(cartOrdersTotalPrice).replace('.', ',')}`}
         </p>
       </button>
       <div>
