@@ -46,6 +46,7 @@ function Header({ requests, products, user }) {
         onClick={ () => {
           navigate('/');
           localStorage.removeItem('user');
+          localStorage.setItem('carrinho', JSON.stringify([]));
         } }
         data-testid="customer_products__element-navbar-link-logout"
       >

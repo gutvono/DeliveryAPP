@@ -2,7 +2,8 @@
 import CardSale from '../components/CardSale';
 import Header from '../components/Header';
 
-function Sales() {
+function SellerOrders() {
+  const user = JSON.parse(localStorage.getItem('user'));
   const orders = [
     {
       id: 1,
@@ -58,7 +59,7 @@ function Sales() {
       ],
     },
     {
-      id: 4,
+      id: 3,
       status: 'ENTREGUE',
       saleDate: new Date(),
       totalPrice: 42.5,
@@ -84,7 +85,6 @@ function Sales() {
       ],
     },
   ];
-
   return (
     <>
       <Header
@@ -101,6 +101,7 @@ function Sales() {
               saleDate={ sale.saleDate }
               status={ sale.status }
               totalPrice={ sale.totalPrice }
+              userRole={ user.role }
             />
           ))
         }
@@ -109,4 +110,4 @@ function Sales() {
   );
 }
 
-export default Sales;
+export default SellerOrders;

@@ -1,15 +1,9 @@
-// import { useParams } from 'react-router-dom';
-
 import Header from '../components/Header';
 
-const statusTestId = 'customer_order_details__element-order-details-label-';
-const productsTestId = 'customer_order_details__element-';
-
-function OrdersDetails() {
-  // const { id } = useParams();
+function SellerOrdersDetails() {
   const orders = {
     id: 1,
-    status: 'PENDENTE',
+    status: 'Pendente',
     saleDate: new Date(),
     totalPrice: 52.5,
     seller: 'Fulana',
@@ -34,68 +28,75 @@ function OrdersDetails() {
       },
     ],
   };
+
   const dateFormatter = new Intl.DateTimeFormat('pt-BR');
+
   return (
     <>
       <Header />
       <div>
         <p
-          data-testid={ `${statusTestId}order-id` }
+          data-testid="seller_order_details__element-order-details-label-order-id"
         >
           {`000${orders.id}`}
         </p>
         <p
-          data-testid={ `${statusTestId}seller-name` }
-        >
-          {orders.seller}
-        </p>
-        <p
-          data-testid={ `${statusTestId}order-date` }
+          data-testid="seller_order_details__element-order-details-label-order-date"
         >
           { dateFormatter.format(orders.saleDate) }
-
         </p>
         <p
-          data-testid={ `${statusTestId}delivery-status<index>` }
+          data-testid="seller_order_details__element-order-details-label-delivery-status"
         >
           {orders.status}
-
         </p>
+        <button
+          type="button"
+          data-testid="seller_order_details__button-preparing-check"
+        >
+          PREPARAR PEDIDO
+        </button>
+        <button
+          type="button"
+          data-testid="seller_order_details__button-dispatch-check"
+        >
+          SAIU PARA ENTREGA
+        </button>
       </div>
       <div>
-        {orders.products.map((item, index) => (
+        {orders.products.map((item, i) => (
           <div key={ item.id }>
             <p
-              data-testid={ `${productsTestId}order-table-item-number-${index}` }
+              data-testid={ `seller_order_details__element-order-table-item-number-${i}` }
             >
-              {` Item: ${index + 1} `}
+              {` Item: ${i + 1} `}
             </p>
             <p
-              data-testid={ `${productsTestId}order-table-name-${index}` }
+              data-testid={ `seller_order_details__element-order-table-name-${i}` }
             >
               {` Descrição: ${item.name} `}
             </p>
             <p
-              data-testid={ `${productsTestId}order-table-quantity-${index}` }
+              data-testid={ `seller_order_details__element-order-table-quantity-${i}` }
             >
               {` Quantidade: ${item.quantityProducts} `}
             </p>
             <p
-              data-testid={ `${productsTestId}order-table-unit-price-${index}` }
+              data-testid={ `seller_order_details__element-order-table-unit-price-${i}` }
 
             >
               {` Valor unitário: ${item.price} `}
 
             </p>
             <p
-              data-testid={ `${productsTestId}order-table-sub-total-${index}` }
+              data-testid={ `seller_order_details__element-order-table-sub-total-${i}` }
             >
               {` Sub-total: ${(item.quantityProducts * item.price)} `}
             </p>
           </div>
         ))}
         <p
-          data-testid={ `${productsTestId}order-total-price` }
+          data-testid="seller_order_details__element-order-total-price"
         >
           { orders.totalPrice }
         </p>
@@ -104,4 +105,4 @@ function OrdersDetails() {
   );
 }
 
-export default OrdersDetails;
+export default SellerOrdersDetails;

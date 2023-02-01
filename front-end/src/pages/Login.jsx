@@ -35,7 +35,8 @@ function Login() {
     api.post('login', body)
       .then(({ data }) => {
         localStorage.setItem('user', JSON.stringify(data));
-        navigate('/customer/products');
+        if (data.role === 'seller') navigate('/seller/orders');
+        if (data.role === 'customer') navigate('/customer/products');
       })
       .catch(({ response: { data: { message } } }) => {
         setMessageErr(message);

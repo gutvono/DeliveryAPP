@@ -5,6 +5,8 @@ import CustomerProducts from './pages/CostumerProducts';
 import Checkout from './pages/Checkout';
 import Sales from './pages/Sales';
 import CustomerOrdersDetails from './pages/CustomerOrdersDetails';
+import SellerOrders from './pages/SellerOrders';
+import SellerOrdersDetails from './pages/SellerOrdersDetails';
 
 function RoutesApp() {
   return (
@@ -16,6 +18,8 @@ function RoutesApp() {
       <Route path="/customer/checkout" element={ <Checkout /> } />
       <Route path="/customer/orders" element={ <Sales /> } />
       <Route path="/customer/orders/:id" element={ <CustomerOrdersDetails /> } />
+      <Route path="/seller/orders" element={ <SellerOrders /> } />
+      <Route path="/seller/orders/:id" element={ <SellerOrdersDetails /> } />
     </Routes>
 
   );
