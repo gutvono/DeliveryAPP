@@ -40,6 +40,6 @@ export default CardSale;
 CardSale.propTypes = {
   id: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
-  saleDate: PropTypes.string.isRequired,
+  saleDate: PropTypes.instanceOf(Date).isRequired,
   totalPrice: PropTypes.number.isRequired,
 };
