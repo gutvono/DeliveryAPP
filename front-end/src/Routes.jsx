@@ -3,6 +3,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CustomerProducts from './pages/CostumerProducts';
 import Checkout from './pages/Checkout';
+import Sales from './pages/Sales';
+import CustomerOrdersDetails from './pages/CustomerOrdersDetails';
 
 function RoutesApp() {
   return (
@@ -12,7 +14,10 @@ function RoutesApp() {
       <Route path="/register" element={ <Register /> } />
       <Route path="/customer/products" element={ <CustomerProducts /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
+      <Route path="/customer/orders" element={ <Sales /> } />
+      <Route path="/customer/orders/:id" element={ <CustomerOrdersDetails /> } />
     </Routes>
+
   );
 }
 
