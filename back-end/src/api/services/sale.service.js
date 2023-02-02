@@ -43,7 +43,7 @@ async function registerNewSale({ products, details }, token) {
     deliveryAddress: details.address,
     deliveryNumber: details.number,
     status: 'Pendente',
-    saleDate: moment().utcOffset(-180).format('YYYY-MM-DD HH:mm:ss'),
+    saleDate: moment().format('YYYY-MM-DD HH:mm:ss'),
   };
   const validations = await Promise.all([
     validateProducts(products), validateUserToken(token), validateSeller(details.sellerId),
