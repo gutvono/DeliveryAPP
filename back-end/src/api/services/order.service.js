@@ -2,7 +2,7 @@ const { Products, Sales, SalesProducts, Users } = require('../../database/models
 
 async function getAOrder(id) {
   const sale = (await Sales.findOne({ where: { id },
-    attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] }))?.dataValues;
+    attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] })).dataValues;
   if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
   sale.sellerName = (await Users.findOne({ where: { id: sale.sellerId },
     attributes: ['name'] })).name;
@@ -21,7 +21,8 @@ async function getAOrder(id) {
 }
 
 async function getProducts(saleId) {
-  const saleProductsIds = [...(await SalesProducts.findAll({ where: { saleId }, attributes: ['productId'] }))]
+  const saleProductsIds = [...(await SalesProducts
+    .findAll({ where: { saleId }, attributes: ['productId'] }))]
     .map(({ dataValues }) => dataValues.productId);
   const products = await Promise.all(saleProductsIds.map((id) => Products.findByPk(id)));
   return products;

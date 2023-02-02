@@ -58,6 +58,21 @@ async function registerNewSale({ products, details }, token) {
   return { success: { saleId } };
 }
 
+async function updateSaleStatus(id, email, status) {
+  const user = await Users.findOne({ where: { email } });
+  const sale = await Sales.findOne({ where: { id, sellerId: user.id } });
+  if (!sale) {
+    return { error: { status: 400, message: 'Sale not found' } };
+  }
+  await Sales.update({ status }, {
+    where: { id },
+  });
+  const updatedSale = await Sales.findOne({ where: { id, status } });
+  if (updatedSale !== sale) return { message: 'Successfully updated' };
+  return { error: { status: 500, message: 'Update failed' } };
+}
+
 module.exports = {
   registerNewSale,
+  updateSaleStatus,
 };
