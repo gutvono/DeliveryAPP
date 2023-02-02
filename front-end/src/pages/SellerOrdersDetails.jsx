@@ -1,33 +1,39 @@
+import { useState } from 'react';
 import Header from '../components/Header';
+import api from '../service/api';
 
 function SellerOrdersDetails() {
-  const orders = {
-    id: 1,
-    status: 'Pendente',
-    saleDate: new Date(),
-    totalPrice: 52.5,
-    seller: 'Fulana',
-    products: [
-      {
-        id: 1,
-        name: 'Skol Lata 250ml',
-        price: '2.20',
-        quantityProducts: 1,
-      },
-      {
-        id: 2,
-        name: 'Heineken 600ml',
-        price: '15.00',
-        quantityProducts: 2,
-      },
-      {
-        id: 6,
-        name: 'Skol Beats Senses 313ml',
-        price: '22.50',
-        quantityProducts: 3,
-      },
-    ],
-  };
+  const [order, setOrder] = useState({});
+  // const order = {
+  //   id: 1,
+  //   status: 'Pendente',
+  //   saleDate: new Date(),
+  //   totalPrice: 52.5,
+  //   seller: 'Fulana',
+  //   products: [
+  //     {
+  //       id: 1,
+  //       name: 'Skol Lata 250ml',
+  //       price: '2.20',
+  //       quantityProducts: 1,
+  //     },
+  //     {
+  //       id: 2,
+  //       name: 'Heineken 600ml',
+  //       price: '15.00',
+  //       quantityProducts: 2,
+  //     },
+  //     {
+  //       id: 6,
+  //       name: 'Skol Beats Senses 313ml',
+  //       price: '22.50',
+  //       quantityProducts: 3,
+  //     },
+  //   ],
+  // };
+  const url = window.location.pathname;
+  api.get(`orders/${url[url.length - 1]}`).then(({ data }) => console.log(data));
+  console.log(order);
 
   const dateFormatter = new Intl.DateTimeFormat('pt-BR');
 
@@ -38,17 +44,17 @@ function SellerOrdersDetails() {
         <p
           data-testid="seller_order_details__element-order-details-label-order-id"
         >
-          {`000${orders.id}`}
+          {`000${order.id}`}
         </p>
         <p
           data-testid="seller_order_details__element-order-details-label-order-date"
         >
-          { dateFormatter.format(orders.saleDate) }
+          { dateFormatter.format(order.saleDate) }
         </p>
         <p
           data-testid="seller_order_details__element-order-details-label-delivery-status"
         >
-          {orders.status}
+          {order.status}
         </p>
         <button
           type="button"
@@ -64,7 +70,7 @@ function SellerOrdersDetails() {
         </button>
       </div>
       <div>
-        {orders.products.map((item, i) => (
+        {order.products.map((item, i) => (
           <div key={ item.id }>
             <p
               data-testid={ `seller_order_details__element-order-table-item-number-${i}` }
@@ -98,7 +104,7 @@ function SellerOrdersDetails() {
         <p
           data-testid="seller_order_details__element-order-total-price"
         >
-          { orders.totalPrice }
+          { order.totalPrice }
         </p>
       </div>
     </>
