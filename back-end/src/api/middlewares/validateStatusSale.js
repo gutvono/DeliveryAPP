@@ -11,7 +11,6 @@ function validateStatusSale(req, res, next) {
   req.body.status = formattedStatus
     .replace(/\//g, '')
     .slice(0, formattedStatus.length - 3);
-  console.log(formattedStatus.length);
   next();
 }
 
