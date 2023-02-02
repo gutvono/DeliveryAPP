@@ -3,6 +3,7 @@ const { Products, Sales, SalesProducts, Users } = require('../../database/models
 async function getAOrder(id) {
   const sale = (await Sales.findOne({ where: { id },
     attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] })).dataValues;
+  if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
   sale.sellerName = (await Users.findOne({ where: { id: sale.sellerId },
     attributes: ['name'] })).name;
   delete sale.sellerId;
@@ -16,9 +17,33 @@ async function getAOrder(id) {
     delete match.urlImage;
     return { ...match, quantity };
   });
-  return { ...sale, products };
+  return { order: { ...sale, products } };
+}
+
+async function getProducts(saleId) {
+  const saleProductsIds = [
+    ...(await SalesProducts.findAll({ where: { saleId }, attributes: ['productId'] })),
+  ]
+    .map(({ dataValues }) => dataValues.productId);
+  const products = await Promise.all(saleProductsIds.map((id) => Products.findByPk(id)));
+  return products;
+}
+
+async function getAllOrders(email) {
+  const { id: userId } = await Users.findOne({ where: { email } });
+  const orders = (await Sales.findAll({ where: { userId },
+    attributes: ['id', 'status', 'saleDate', 'totalPrice'] }))
+      .map(({ dataValues }) => dataValues);
+  const result = await Promise.all(orders.map(async (curr) => {
+    const FullData = curr;
+    FullData.totalPrice = Number(FullData.totalPrice);
+    FullData.products = await getProducts(curr.id);
+    return FullData;
+  }));
+  return { orders: result };
 }
 
 module.exports = {
   getAOrder,
+  getAllOrders,
 };
