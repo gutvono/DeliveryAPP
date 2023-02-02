@@ -3,6 +3,7 @@ const userRoutes = require('./user.routes');
 const productRoutes = require('./product.routes');
 const saleRoutes = require('./sale.routes');
 const orderRoutes = require('./order.routes');
+const sellerRoutes = require('./seller.route');
 
 const routes = Router();
 
@@ -18,6 +19,9 @@ routes.use(productRoutes);
 routes.use(saleRoutes);
 
 // Rotas referentes a manipulação de dados de ordens
-routes.use(orderRoutes);
+routes.use('/costumer', orderRoutes);
+
+// Rotas referentes a manipulação de dados de ordens pela perspectiva do vendedor
+routes.use('/seller', sellerRoutes);
 
 module.exports = routes;
