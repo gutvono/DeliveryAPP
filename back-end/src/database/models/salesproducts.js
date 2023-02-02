@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     quantity: DataTypes.INTEGER
   }, {
     sequelize: db,
-    tableName: 'salesProducts',
+    tableName: 'sales_products',
     modelName: 'salesProducts',
     underscored: true,
     timestamps: false,
