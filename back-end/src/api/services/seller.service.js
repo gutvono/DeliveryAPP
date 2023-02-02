@@ -1,10 +1,9 @@
 const { Products, Sales, SalesProducts, Users } = require('../../database/models');
 
 async function getAOrder(id) {
-  let sale = (await Sales.findOne({ where: { id },
-    attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] }));
-    if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
-    sale.dataValues
+  const sale = (await Sales.findOne({ where: { id },
+    attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] })).dataValues;
+  if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
   sale.sellerName = (await Users.findOne({ where: { id: sale.sellerId },
     attributes: ['name'] })).name;
   delete sale.sellerId;
@@ -31,8 +30,8 @@ async function getProducts(saleId) {
 }
 
 async function getAllOrders(email) {
-  const { id: userId } = await Users.findOne({ where: { email } });
-  const orders = (await Sales.findAll({ where: { userId },
+  const { id: sellerId } = await Users.findOne({ where: { email } });
+  const orders = (await Sales.findAll({ where: { sellerId },
     attributes: ['id', 'status', 'saleDate', 'totalPrice'] }))
       .map(({ dataValues }) => dataValues);
   const result = await Promise.all(orders.map(async (curr) => {

@@ -1,106 +1,109 @@
-// import { useParams } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import api from '../service/api';
 import Header from '../components/Header';
 
 const statusTestId = 'customer_order_details__element-order-details-label-';
 const productsTestId = 'customer_order_details__element-';
 
 function OrdersDetails() {
-  // const { id } = useParams();
-  const orders = {
-    id: 1,
-    status: 'PENDENTE',
-    saleDate: new Date(),
-    totalPrice: 52.5,
-    seller: 'Fulana',
-    products: [
-      {
-        id: 1,
-        name: 'Skol Lata 250ml',
-        price: '2.20',
-        quantityProducts: 1,
-      },
-      {
-        id: 2,
-        name: 'Heineken 600ml',
-        price: '15.00',
-        quantityProducts: 2,
-      },
-      {
-        id: 6,
-        name: 'Skol Beats Senses 313ml',
-        price: '22.50',
-        quantityProducts: 3,
-      },
-    ],
+  const { id } = useParams();
+  const [orders, setOrders] = useState([]);
+
+  const getOrders = async () => {
+    const { token } = JSON.parse(localStorage.getItem('user'));
+    const response = await
+    api.get(`costumer/orders/${id}`, { headers: { Authorization: token } });
+    setOrders(response.data);
   };
-  const dateFormatter = new Intl.DateTimeFormat('pt-BR');
+  console.log(orders);
+  useEffect(() => {
+    getOrders();
+  }, []);
+
   return (
-    <>
-      <Header />
-      <div>
-        <p
-          data-testid={ `${statusTestId}order-id` }
-        >
-          {`000${orders.id}`}
-        </p>
-        <p
-          data-testid={ `${statusTestId}seller-name` }
-        >
-          {orders.seller}
-        </p>
-        <p
-          data-testid={ `${statusTestId}order-date` }
-        >
-          { dateFormatter.format(orders.saleDate) }
+    <div>
+      <Header
+        products="PRODUTOS"
+        requests="MEUS PEDIDOS"
+        user={ JSON.parse(localStorage.getItem('user')).name }
+      />
+      {
+        orders
+          ? <p>Carregando</p>
+          : (
+            <main>
+              <div>
+                <p
+                  data-testid={ `${statusTestId}order-id` }
+                >
+                  {`000${id}`}
+                </p>
+                <p
+                  data-testid={ `${statusTestId}seller-name` }
+                >
+                  {orders.sellerName}
+                </p>
+                <p
+                  data-testid={ `${statusTestId}order-date` }
+                >
+                  {orders.saleDate}
 
-        </p>
-        <p
-          data-testid={ `${statusTestId}delivery-status<index>` }
-        >
-          {orders.status}
+                </p>
+                <button
+                  type="button"
+                  value="ENTREGUE"
+                  data-testid={ `${statusTestId}delivery-status<index>` }
+                >
+                  {orders.status}
 
-        </p>
-      </div>
-      <div>
-        {orders.products.map((item, index) => (
-          <div key={ item.id }>
-            <p
-              data-testid={ `${productsTestId}order-table-item-number-${index}` }
-            >
-              {` Item: ${index + 1} `}
-            </p>
-            <p
-              data-testid={ `${productsTestId}order-table-name-${index}` }
-            >
-              {` Descrição: ${item.name} `}
-            </p>
-            <p
-              data-testid={ `${productsTestId}order-table-quantity-${index}` }
-            >
-              {` Quantidade: ${item.quantityProducts} `}
-            </p>
-            <p
-              data-testid={ `${productsTestId}order-table-unit-price-${index}` }
+                </button>
+              </div>
+              <div>
+                {orders.products.map((item, index) => (
+                  <div key={ item.id }>
+                    <p
+                      data-testid={ `${productsTestId}order-table-item-number-${index}` }
+                    >
+                      { index + 1 }
+                    </p>
+                    <p
+                      data-testid={ `${productsTestId}order-table-name-${index}` }
+                    >
+                      { item.name }
+                    </p>
+                    <p
+                      data-testid={ `${productsTestId}order-table-quantity-${index}` }
+                    >
+                      { item.quantity }
+                    </p>
+                    <p
+                      data-testid={ `${productsTestId}order-table-unit-price-${index}` }
+                    >
+                      { item.price }
 
-            >
-              {` Valor unitário: ${item.price} `}
+                    </p>
+                    <p
+                      data-testid={ `${productsTestId}order-table-sub-total-${index}` }
+                    >
+                      { (item.quantity * item.price) }
+                    </p>
+                  </div>
+                ))}
+                <p
+                  data-testid={ `${productsTestId}order-total-price` }
+                >
+                  { orders.totalPrice }
 
-            </p>
-            <p
-              data-testid={ `${productsTestId}order-table-sub-total-${index}` }
-            >
-              {` Sub-total: ${(item.quantityProducts * item.price)} `}
-            </p>
-          </div>
-        ))}
-        <p
-          data-testid={ `${productsTestId}order-total-price` }
-        >
-          { orders.totalPrice }
-        </p>
-      </div>
-    </>
+                </p>
+              </div>
+
+            </main>
+          )
+
+      }
+    </div>
+
   );
 }
 

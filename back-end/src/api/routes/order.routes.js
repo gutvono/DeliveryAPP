@@ -1,11 +1,8 @@
 const { Router } = require('express');
-const { getAOrder, getAllOrders } = require('../controllers/order.controller');
-const { getTheUser } = require('../middlewares');
+const { getAOrder } = require('../controllers/order.controller');
 
 const router = Router();
 
-router.get('/orders/:id', getTheUser, getAOrder);
-
-router.get('/orders', getTheUser, getAllOrders);
+router.get('/orders/:id', getAOrder);
 
 module.exports = router;

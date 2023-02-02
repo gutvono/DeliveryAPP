@@ -1,112 +1,129 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
 import api from '../service/api';
 
 function SellerOrdersDetails() {
-  const [order, setOrder] = useState({});
-  // const order = {
-  //   id: 1,
-  //   status: 'Pendente',
-  //   saleDate: new Date(),
-  //   totalPrice: 52.5,
-  //   seller: 'Fulana',
-  //   products: [
-  //     {
-  //       id: 1,
-  //       name: 'Skol Lata 250ml',
-  //       price: '2.20',
-  //       quantityProducts: 1,
-  //     },
-  //     {
-  //       id: 2,
-  //       name: 'Heineken 600ml',
-  //       price: '15.00',
-  //       quantityProducts: 2,
-  //     },
-  //     {
-  //       id: 6,
-  //       name: 'Skol Beats Senses 313ml',
-  //       price: '22.50',
-  //       quantityProducts: 3,
-  //     },
-  //   ],
-  // };
-  const url = window.location.pathname;
-  api.get(`orders/${url[url.length - 1]}`).then(({ data }) => console.log(data));
-  console.log(order);
+  const [order, setOrder] = useState();
+  const [status, setStatus] = useState('');
+  const { id } = useParams();
+  const dataTest = 'seller_order_details__';
 
-  const dateFormatter = new Intl.DateTimeFormat('pt-BR');
+  const transformDate = (date) => {
+    const nDate = date.split('T')[0];
+    return nDate.split('-').reverse().join('/');
+  };
+
+  const { token } = JSON.parse(localStorage.getItem('user'));
+  function getOrder() {
+    api.get(`seller/orders/${id}`, { headers: { Authorization: token } })
+      .then(({ data }) => {
+        setOrder(data);
+        setStatus(data.status);
+      });
+  }
+
+  async function handleChangeStatus(orderStatus) {
+    if (orderStatus === 'Pendente') {
+      await api.put(
+        `sales/${id}`,
+        { status: 'Preparando' },
+        { headers: { Authorization: token } },
+      );
+    } else {
+      await api.put(
+        `sales/${id}`,
+        { status: 'Em Trânsito' },
+        { headers: { Authorization: token } },
+      );
+    }
+  }
+
+  useEffect(() => {
+    getOrder();
+  }, []);
 
   return (
     <>
       <Header />
-      <div>
-        <p
-          data-testid="seller_order_details__element-order-details-label-order-id"
-        >
-          {`000${order.id}`}
-        </p>
-        <p
-          data-testid="seller_order_details__element-order-details-label-order-date"
-        >
-          { dateFormatter.format(order.saleDate) }
-        </p>
-        <p
-          data-testid="seller_order_details__element-order-details-label-delivery-status"
-        >
-          {order.status}
-        </p>
-        <button
-          type="button"
-          data-testid="seller_order_details__button-preparing-check"
-        >
-          PREPARAR PEDIDO
-        </button>
-        <button
-          type="button"
-          data-testid="seller_order_details__button-dispatch-check"
-        >
-          SAIU PARA ENTREGA
-        </button>
-      </div>
-      <div>
-        {order.products.map((item, i) => (
-          <div key={ item.id }>
+      {order
+      && (
+        <div>
+          <div>
             <p
-              data-testid={ `seller_order_details__element-order-table-item-number-${i}` }
+              data-testid={ `${dataTest}element-order-details-label-order-id` }
             >
-              {` Item: ${i + 1} `}
+              {`000${id}`}
             </p>
             <p
-              data-testid={ `seller_order_details__element-order-table-name-${i}` }
+              data-testid={ `${dataTest}element-order-details-label-order-date` }
             >
-              {` Descrição: ${item.name} `}
+              { transformDate(order.saleDate) }
             </p>
             <p
-              data-testid={ `seller_order_details__element-order-table-quantity-${i}` }
+              data-testid={ `${dataTest}element-order-details-label-delivery-status` }
             >
-              {` Quantidade: ${item.quantityProducts} `}
+              {status}
             </p>
-            <p
-              data-testid={ `seller_order_details__element-order-table-unit-price-${i}` }
+            <button
+              type="button"
+              data-testid={ `${dataTest}button-preparing-check` }
+              onClick={ () => handleChangeStatus(order.status) }
+              disabled={ order.status !== 'Pendente' }
+            >
+              PREPARAR PEDIDO
+            </button>
+            <button
+              type="button"
+              data-testid={ `${dataTest}button-dispatch-check` }
+              onClick={ () => handleChangeStatus(order.status) }
+              disabled={ order.status !== 'Preparando' }
+            >
+              SAIU PARA ENTREGA
+            </button>
+          </div>
+          <div>
+            {order.products.map((item, i) => (
+              <div key={ item.id }>
+                <p
+                  data-testid={ `${dataTest}element-order-table-item-number-${i}` }
+                >
+                  {` Item: ${i + 1} `}
+                </p>
+                <p
+                  data-testid={ `${dataTest}element-order-table-name-${i}` }
+                >
+                  {` Descrição: ${item.name} `}
+                </p>
+                <p
+                  data-testid={ `${dataTest}element-order-table-quantity-${i}` }
+                >
+                  {` Quantidade: ${item.quantity} `}
+                </p>
+                <p
+                  data-testid={ `${dataTest}element-order-table-unit-price-${i}` }
 
-            >
-              {` Valor unitário: ${item.price} `}
+                >
+                  {` Valor unitário: ${item.price.toString().replace('.', ',')} `}
 
-            </p>
+                </p>
+                <p
+                  data-testid={ `${dataTest}element-order-table-sub-total-${i}` }
+                >
+                  {` Sub-total: ${(item.quantity * item.price)
+                    .toString().replace('.', ',')} `}
+                </p>
+              </div>
+            ))}
             <p
-              data-testid={ `seller_order_details__element-order-table-sub-total-${i}` }
+              data-testid={ `${dataTest}element-order-total-price` }
             >
-              {` Sub-total: ${(item.quantityProducts * item.price)} `}
+              { order.totalPrice.toString().replace('.', ',') }
             </p>
           </div>
-        ))}
-        <p
-          data-testid="seller_order_details__element-order-total-price"
-        >
-          { order.totalPrice }
-        </p>
-      </div>
+        </div>
+      )}
+
     </>
   );
 }

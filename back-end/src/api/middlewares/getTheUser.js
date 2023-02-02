@@ -1,11 +1,13 @@
-const { decodeToken } = require("../utils/jwt");
+const { decodeToken } = require('../utils/jwt');
 
-module.exports = (req, res, next) => {
+function getTheUser(req, res, next) {
   const token = req.headers.authorization;
   if (!token) {
     return res.status(400).json({ message: 'Token is required' });
   }
-  const user = decodeToken(token)
+  const user = decodeToken(token);
   req.requestingUser = user;
   next();
 }
+
+module.exports = getTheUser;
