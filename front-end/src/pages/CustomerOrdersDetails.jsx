@@ -13,7 +13,7 @@ function OrdersDetails() {
   const getOrders = async () => {
     const { token } = JSON.parse(localStorage.getItem('user'));
     const response = await
-    api.get(`orders/${id}`, { headers: { Authorization: token } });
+    api.get(`costumer/orders/${id}`, { headers: { Authorization: token } });
     setOrders(response.data);
   };
   console.log(orders);
@@ -29,8 +29,7 @@ function OrdersDetails() {
         user={ JSON.parse(localStorage.getItem('user')).name }
       />
       {
-        orders.length
-         === 0
+        orders
           ? <p>Carregando</p>
           : (
             <main>
@@ -76,7 +75,7 @@ function OrdersDetails() {
                     <p
                       data-testid={ `${productsTestId}order-table-quantity-${index}` }
                     >
-                      { item.quantityProducts }
+                      { item.quantity }
                     </p>
                     <p
                       data-testid={ `${productsTestId}order-table-unit-price-${index}` }
@@ -87,7 +86,7 @@ function OrdersDetails() {
                     <p
                       data-testid={ `${productsTestId}order-table-sub-total-${index}` }
                     >
-                      { (item.quantityProducts * item.price) }
+                      { (item.quantity * item.price) }
                     </p>
                   </div>
                 ))}

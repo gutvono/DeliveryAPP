@@ -1,33 +1,38 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-function CardSale({ id, status, saleDate, totalPrice }) {
+function CardSale({ id, status, saleDate, totalPrice }, userRole) {
   const navigate = useNavigate();
   const formatDate = new Date(saleDate).toLocaleDateString('pt-BR');
 
+  const dataTestByUser = userRole === 'customer' ? 'customer' : 'seller';
+
   const handleRedirectOrderDetail = () => {
-    navigate(`/customer/orders/${id}`);
+    if (userRole === 'customer') {
+      navigate(`/customer/orders/${id}`);
+    }
+    navigate(`/seller/orders/${id}`);
   };
 
   return (
     <button type="button" onClick={ handleRedirectOrderDetail }>
       <p
-        data-testid={ `customer_orders__element-order-id-${id}` }
+        data-testid={ `${dataTestByUser}_orders__element-order-id-${id}` }
       >
         {`Pedido${id}`}
       </p>
       <p
-        data-testid={ `customer_orders__element-delivery-status-${id}` }
+        data-testid={ `${dataTestByUser}_orders__element-delivery-status-${id}` }
       >
         {status}
       </p>
       <p
-        data-testid={ `customer_orders__element-order-date-${id}` }
+        data-testid={ `${dataTestByUser}_orders__element-order-date-${id}` }
       >
         {formatDate}
       </p>
       <p
-        data-testid={ `customer_orders__element-card-price-${id}` }
+        data-testid={ `${dataTestByUser}_orders__element-card-price-${id}` }
       >
         {`R$${totalPrice}`}
       </p>

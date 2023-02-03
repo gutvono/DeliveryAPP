@@ -1,9 +1,10 @@
 const { Products, Sales, SalesProducts, Users } = require('../../database/models');
 
 async function getAOrder(id) {
-  const sale = (await Sales.findOne({ where: { id },
-    attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] })).dataValues;
-  if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
+  let sale = (await Sales.findOne({ where: { id },
+    attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] }));
+    if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
+    sale.dataValues
   sale.sellerName = (await Users.findOne({ where: { id: sale.sellerId },
     attributes: ['name'] })).name;
   delete sale.sellerId;
