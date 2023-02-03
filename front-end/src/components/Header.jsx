@@ -1,34 +1,35 @@
 import PropTypes from 'prop-types';
 import { Link, useNavigate } from 'react-router-dom';
 
-function Header({ requests, products, user }) {
+function Header({ requests, products, user, roleSeller }) {
   const navigate = useNavigate();
+  const { role } = JSON.parse(localStorage.getItem('user'));
 
   return (
     <header className="max-w-[1100px] flex items-center justify-between mx-auto ">
-
-      <Link
-        className="ColorTextDark"
-        to="/customer/products"
-      >
-        <h2
-          data-testid="customer_products__element-navbar-link-products"
+      { role === 'customer' && (
+        <Link
+          className="ColorTextDark"
+          to="/customer/products"
         >
-          { products }
-        </h2>
-      </Link>
+          <h2
+            data-testid="customer_products__element-navbar-link-products"
+          >
+            { products }
+          </h2>
+        </Link>
+      )}
       <Link
         className="flex items-center justify-center w-[32rem] bg-green-800"
-        to="/customer/orders"
+        to={ `/${role}/orders` }
       >
         <h2
           data-testid="customer_products__element-navbar-link-orders"
           className="  text-gray-100 p-[16px]"
         >
-          {requests}
+          { requests || roleSeller }
         </h2>
       </Link>
-
       <div
         className="
         flex items-center justify-center

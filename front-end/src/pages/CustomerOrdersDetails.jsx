@@ -8,15 +8,28 @@ const productsTestId = 'customer_order_details__element-';
 
 function OrdersDetails() {
   const { id } = useParams();
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState({});
+  const { token } = JSON.parse(localStorage.getItem('user'));
+  const [disableBtn, setDisableBtn] = useState(false);
 
   const getOrders = async () => {
-    const { token } = JSON.parse(localStorage.getItem('user'));
     const response = await
-    api.get(`costumer/orders/${id}`, { headers: { Authorization: token } });
+    api.get(`customer/orders/${id}`, { headers: { Authorization: token } });
+    // console.log(response.data);
     setOrders(response.data);
   };
-  console.log(orders);
+
+  const handleChangeStatus = async () => {
+    setDisableBtn(true);
+    await api.put(
+      `sales/${id}`,
+      { status: 'Entregue' },
+      { headers: { Authorization: token } },
+    );
+  };
+
+  if (orders.status === 'Entregue' && !disableBtn) setDisableBtn(true);
+
   useEffect(() => {
     getOrders();
   }, []);
@@ -28,8 +41,9 @@ function OrdersDetails() {
         requests="MEUS PEDIDOS"
         user={ JSON.parse(localStorage.getItem('user')).name }
       />
+      {console.log(orders.products)}
       {
-        orders
+        Object.keys(orders).length === 0
           ? <p>Carregando</p>
           : (
             <main>
@@ -50,13 +64,19 @@ function OrdersDetails() {
                   {orders.saleDate}
 
                 </p>
-                <button
-                  type="button"
-                  value="ENTREGUE"
+                <p
                   data-testid={ `${statusTestId}delivery-status<index>` }
                 >
                   {orders.status}
-
+                </p>
+                <button
+                  onClick={ handleChangeStatus }
+                  type="button"
+                  value="ENTREGUE"
+                  data-testid="customer_order_details__button-delivery-check"
+                  disabled={ disableBtn }
+                >
+                  MARCAR COMO ENTREGUE
                 </button>
               </div>
               <div>

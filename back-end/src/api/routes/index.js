@@ -19,7 +19,7 @@ routes.use(productRoutes);
 routes.use(saleRoutes);
 
 // Rotas referentes a manipulação de dados de ordens
-routes.use('/costumer', orderRoutes);
+routes.use('/customer', orderRoutes);
 
 // Rotas referentes a manipulação de dados de ordens pela perspectiva do vendedor
 routes.use('/seller', sellerRoutes);

@@ -22,15 +22,6 @@ function Login() {
     resolver: zodResolver(schema),
   });
 
-  useEffect(() => {
-    const rgx = /\S+@\S+\.\S+/;
-    if (rgx.test(email) && password.length >= six) {
-      setDisableBtn(false);
-    } else {
-      setDisableBtn(true);
-    }
-  }, [email, password]);
-
   function handleLogin(body) {
     api.post('login', body)
       .then(({ data }) => {
@@ -43,6 +34,23 @@ function Login() {
         reset();
       });
   }
+
+  useEffect(() => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+      if (user.role === 'seller') navigate('/seller/orders');
+      if (user.role === 'customer') navigate('/customer/products');
+    }
+  }, []);
+
+  useEffect(() => {
+    const rgx = /\S+@\S+\.\S+/;
+    if (rgx.test(email) && password.length >= six) {
+      setDisableBtn(false);
+    } else {
+      setDisableBtn(true);
+    }
+  }, [email, password]);
 
   return (
     <>

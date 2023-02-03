@@ -1,5 +1,4 @@
 const service = require('../services/sale.service');
-const { decodeToken } = require('../utils/jwt');
 
 async function registerNewSale(req, res) {
   const saleData = req.body;
@@ -13,9 +12,8 @@ async function registerNewSale(req, res) {
 
 async function updateSaleStatus(req, res) {
   const { id } = req.params;
-  const email = decodeToken(req.headers.authorization);
   const { status } = req.body;
-  const { success, error } = await service.updateSaleStatus(id, email, status);
+  const { success, error } = await service.updateSaleStatus(id, status);
   if (error) {
     return res.status(error.status).json({ message: error.message });
   }

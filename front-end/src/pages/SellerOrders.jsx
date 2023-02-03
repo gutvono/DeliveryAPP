@@ -1,6 +1,6 @@
 /* eslint-disable sonarjs/no-duplicate-string */
 import { useState, useEffect } from 'react';
-import CardSale from '../components/CardSale';
+import CardSale from '../components/CardOrders';
 import Header from '../components/Header';
 import api from '../service/api';
 
@@ -17,9 +17,8 @@ function SellerOrders() {
   return (
     <>
       <Header
-        products="PRODUTOS"
-        requests="MEUS PEDIDOS"
         user={ JSON.parse(localStorage.getItem('user')).name }
+        roleSeller="PEDIDOS"
       />
       <div>
         {

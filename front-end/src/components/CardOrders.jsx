@@ -1,17 +1,15 @@
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-function CardSale({ id, status, saleDate, totalPrice }, userRole) {
+function CardOrders({ id, status, saleDate, totalPrice }) {
   const navigate = useNavigate();
   const formatDate = new Date(saleDate).toLocaleDateString('pt-BR');
+  const { role } = JSON.parse(localStorage.getItem('user'));
 
-  const dataTestByUser = userRole === 'customer' ? 'customer' : 'seller';
+  const dataTestByUser = role === 'customer' ? 'customer' : 'seller';
 
   const handleRedirectOrderDetail = () => {
-    if (userRole === 'customer') {
-      navigate(`/customer/orders/${id}`);
-    }
-    navigate(`/seller/orders/${id}`);
+    navigate(`/${dataTestByUser}/orders/${id}`);
   };
 
   return (
@@ -34,17 +32,18 @@ function CardSale({ id, status, saleDate, totalPrice }, userRole) {
       <p
         data-testid={ `${dataTestByUser}_orders__element-card-price-${id}` }
       >
-        {`R$${totalPrice}`}
+        {totalPrice.toFixed(2).replace('.', ',')}
       </p>
     </button>
   );
 }
 
-export default CardSale;
+export default CardOrders;
 
-CardSale.propTypes = {
-  id: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
-  saleDate: PropTypes.instanceOf(Date).isRequired,
-  totalPrice: PropTypes.number.isRequired,
-};
+CardOrders.propTypes = {
+  id: PropTypes.number,
+  status: PropTypes.string,
+  saleDate: PropTypes.instanceOf(Date),
+  totalPrice: PropTypes.number,
+  userRole: PropTypes.string,
+}.isRequired;

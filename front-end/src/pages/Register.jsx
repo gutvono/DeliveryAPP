@@ -41,7 +41,6 @@ function Register() {
     api.post('register', body)
       .then(({ data }) => {
         localStorage.setItem('user', JSON.stringify(data));
-        console.log(data);
         navigate('/customer/products');
       })
       .catch(({ response: { data: { message } } }) => {

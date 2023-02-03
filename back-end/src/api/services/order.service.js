@@ -4,7 +4,7 @@ async function getAOrder(id) {
   let sale = (await Sales.findOne({ where: { id },
     attributes: ['sellerId', 'totalPrice', 'saleDate', 'status'] }));
     if (!sale) { return { error: { status: 400, message: 'Invalid id' } }; }
-    sale.dataValues
+    sale = sale.dataValues;
   sale.sellerName = (await Users.findOne({ where: { id: sale.sellerId },
     attributes: ['name'] })).name;
   delete sale.sellerId;

@@ -3,7 +3,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import CustomerProducts from './pages/CostumerProducts';
 import Checkout from './pages/Checkout';
-import Sales from './pages/Sales';
+import CustomerOrders from './pages/CustomerOrders';
 import CustomerOrdersDetails from './pages/CustomerOrdersDetails';
 import SellerOrders from './pages/SellerOrders';
 import SellerOrdersDetails from './pages/SellerOrdersDetails';
@@ -16,7 +16,7 @@ function RoutesApp() {
       <Route path="/register" element={ <Register /> } />
       <Route path="/customer/products" element={ <CustomerProducts /> } />
       <Route path="/customer/checkout" element={ <Checkout /> } />
-      <Route path="/customer/orders" element={ <Sales /> } />
+      <Route path="/customer/orders" element={ <CustomerOrders /> } />
       <Route path="/customer/orders/:id" element={ <CustomerOrdersDetails /> } />
       <Route path="/seller/orders" element={ <SellerOrders /> } />
       <Route path="/seller/orders/:id" element={ <SellerOrdersDetails /> } />

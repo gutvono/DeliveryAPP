@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import CardSale from '../components/CardSale';
+import CardOrders from '../components/CardOrders';
 import Header from '../components/Header';
 import api from '../service/api';
 
-function Sales() {
+function CustomerOrders() {
   const [orders, setOrders] = useState([]);
 
   const getOrders = async () => {
     const { token } = JSON.parse(localStorage.getItem('user'));
-    const response = await api.get('orders', { headers: { Authorization: token } });
+    const response = await api
+      .get('customer/orders', { headers: { Authorization: token } });
     setOrders(response.data);
   };
 
@@ -26,7 +27,7 @@ function Sales() {
       <div>
         {
           orders.map((sale) => (
-            <CardSale
+            <CardOrders
               key={ sale.id }
               id={ sale.id }
               saleDate={ sale.saleDate }
@@ -40,4 +41,4 @@ function Sales() {
   );
 }
 
-export default Sales;
+export default CustomerOrders;

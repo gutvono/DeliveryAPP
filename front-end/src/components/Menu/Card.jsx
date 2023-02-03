@@ -22,8 +22,7 @@ function Card({ product }) {
       addProductToCart(productToCart);
     } else {
       const cart = JSON.parse(localStorage.getItem('carrinho'));
-      const rmv = cart.find((item) => item.id === id);
-      const newArr = cart.filter((item) => item.id !== rmv.id);
+      const newArr = cart.filter((item) => item.id !== id);
       localStorage.setItem('carrinho', JSON.stringify(newArr));
     }
   }, [quantityProducts]);
@@ -45,7 +44,7 @@ function Card({ product }) {
           data-testid={ `customer_products__element-card-price-${id}` }
           style={ { fontWeight: 'bold' } }
         >
-          { price.replace('.', ',') }
+          { price.toString().replace('.', ',') }
         </p>
         <div>
           <div>

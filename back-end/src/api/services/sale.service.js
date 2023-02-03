@@ -58,9 +58,8 @@ async function registerNewSale({ products, details }, token) {
   return { success: { saleId } };
 }
 
-async function updateSaleStatus(id, email, status) {
-  const user = await Users.findOne({ where: { email } });
-  const sale = await Sales.findOne({ where: { id, sellerId: user.id } });
+async function updateSaleStatus(id, status) {
+  const sale = await Sales.findOne({ where: { id } });
   if (!sale) {
     return { error: { status: 400, message: 'Sale not found' } };
   }
