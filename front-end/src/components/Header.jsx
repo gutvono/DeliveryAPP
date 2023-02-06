@@ -25,7 +25,6 @@ function Header({ requests, products, user, roleSeller }) {
         </Link>
       )}
       <Link
-        className="bg-green-400 p-[20px] "
         to={ `/${role}/orders` }
       >
         <h2
