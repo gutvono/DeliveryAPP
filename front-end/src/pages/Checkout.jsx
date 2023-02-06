@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-max-depth */
+/* eslint-disable max-len */
 import { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CardCheckout from '../components/CardCheckout';
@@ -12,7 +14,10 @@ function Checkout() {
   const [address, setAddress] = useState('');
   const [number, setNumber] = useState('');
   const navigate = useNavigate();
-
+  const priceFormatter = new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  });
   // const sellers = [
   //   { name: 'Choose a seller', id: 0 },
   //   { name: 'Fulana Pereira ', id: 2 },
@@ -43,56 +48,132 @@ function Checkout() {
         requests="MEUS PEDIDOS"
         user={ JSON.parse(localStorage.getItem('user')).name }
       />
-      <main>
-        <div>
-          { productsToCart?.map((item, i) => (
-            <CardCheckout
-              key={ item.id }
-              product={ item }
-              i={ i }
-            />
-          ))}
-          <strong
-            data-testid="customer_checkout__element-order-total-price"
-          >
-            {cartOrdersTotalPrice.toString().replace('.', ',')}
+      <main
+        className="flex flex-col items-start justify-start
+            max-w-[816px] w-full mx-auto mt-10 px-2"
+      >
+        <div className="flex-1 overflow-auto mt-5 ">
+          <h2 className="text-gray-100 font-bold mb-4">Finalizar Pedido</h2>
+          <table className="w-full border-collapse min-w-[800px]">
+            <thead>
+              <tr className="text-sm">
+                <th
+                  className="bg-gray-400 p-4 text-left text-gray-100 font-semibold rounded-tl-md"
+                >
+                  Item
+                </th>
+                <th
+                  className="bg-gray-400 w-1/3 text-center p-2  text-gray-100 font-semibold"
+                >
+                  Descrição
+
+                </th>
+                <th
+                  className="bg-gray-400 p-2 text-center text-gray-100 font-semibold"
+                >
+                  Quantidade
+
+                </th>
+                <th
+                  className="bg-gray-400 p-2 text-center text-gray-100 font-semibold"
+                >
+                  Valor Unitário
+
+                </th>
+                <th
+                  className="bg-gray-400 p-2 text-center text-gray-100 font-semibold"
+                >
+                  Sub-total
+                </th>
+                <th
+                  className="bg-gray-400 p-2 text-center text-gray-100 font-semibold rounded-tr-md"
+                >
+                  remover item
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+
+              { productsToCart?.map((item, i) => (
+                <CardCheckout
+                  key={ item.id }
+                  product={ item }
+                  i={ i }
+                />
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div
+          className="flex items-center justify-end w-full mt-4 text-gray-100 "
+          data-testid="customer_checkout__element-order-total-price"
+        >
+          <strong className=" bg-green-700 p-2 rounded">
+            Total:
+            {' '}
+            {priceFormatter.format(cartOrdersTotalPrice)}
+
           </strong>
         </div>
-        <p>Detalhes e endereço para entrega</p>
-        <form onSubmit={ handleCheckout }>
-          <p>Vendedor responsável</p>
-          <select
-            data-testid="customer_checkout__select-seller"
-            onChange={ ({ target: { value } }) => setSellerId(value) }
+        <h2 className="text-gray-100 font-bold mb-4 mt-10">Detalhes e endereço para entrega</h2>
+        <form
+          onSubmit={ handleCheckout }
+          className="bg-gray-900 text-gray-100 min-w-[800px] rounded "
+        >
+          <div className="flex w-full items-center justify-around p-4 gap-4">
+
+            <div className="flex flex-col items-start justify-center gap-1">
+              <span className="font-light">Vendedor responsável</span>
+              <select
+                className="bg-gray-500 p-2 rounded "
+                data-testid="customer_checkout__select-seller"
+                onChange={ ({ target: { value } }) => setSellerId(value) }
+              >
+                <option className="text-gray-300">Choose one seller</option>
+                {sellers.map((option) => (
+                  <option className="text-gray-300" key={ option.id } value={ option.id }>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col items-start w-1/2 justify-center gap-1 ">
+              <span className="font-light">Endereço</span>
+              <input
+                className="bg-gray-500 p-2 w-full rounded placeholder:text-gray-300"
+                data-testid="customer_checkout__input-address"
+                type="text"
+                onChange={ ({ target: { value } }) => setAddress(value) }
+                placeholder="Ex. Rua do zé"
+              />
+            </div>
+            <div
+              className="flex flex-col items-start justify-center gap-1"
+            >
+              <span className="font-light">Número</span>
+              <input
+                className="bg-gray-500 p-2  w-[7rem] rounded placeholder:text-gray-300"
+                data-testid="customer_checkout__input-address-number"
+                type="text"
+                onChange={ ({ target: { value } }) => setNumber(value) }
+                placeholder="00"
+              />
+            </div>
+
+          </div>
+          <div
+            className="flex items-center justify-center w-full"
+
           >
-            <option value="">Choose one seller</option>
-            {sellers.map((option) => (
-              <option key={ option.id } value={ option.id }>
-                {option.name}
-              </option>
-            ))}
-          </select>
-          <p>Endereço</p>
-          <input
-            data-testid="customer_checkout__input-address"
-            type="text"
-            onChange={ ({ target: { value } }) => setAddress(value) }
-            placeholder="Rua do bar do zé, Bairro barlandia"
-          />
-          <p>Número</p>
-          <input
-            data-testid="customer_checkout__input-address-number"
-            type="text"
-            onChange={ ({ target: { value } }) => setNumber(value) }
-            placeholder="51"
-          />
-          <br />
-          <button
-            data-testid="customer_checkout__button-submit-order"
-            type="submit"
-          >
-            FINALIZAR PEDIDO
-          </button>
+            <button
+              className="p-2 rounded m-2 bg-green-600"
+              data-testid="customer_checkout__button-submit-order"
+              type="submit"
+            >
+              FINALIZAR PEDIDO
+            </button>
+          </div>
         </form>
       </main>
     </>

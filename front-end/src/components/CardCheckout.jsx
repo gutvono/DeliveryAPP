@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-multi-spaces */
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
@@ -15,43 +16,56 @@ function CardCheckout({ product, i }) {
   };
 
   return (
-    <div key={ product.id }>
-      <span
+    <tr
+      className="text-gray-100 bg-gray-900"
+      key={ product.id }
+    >
+      <td
+        className="p-2 bg-green-600 w-[10px] text-center border-t-4 border-gray-600"
+
         data-testid={ `customer_checkout__element-order-table-item-number-${i}` }
       >
-        index
         {i + 1}
-      </span>
-      <p
+      </td>
+      <td
+        className="p-2 text-center border-t-4 border-gray-600"
         data-testid={ `customer_checkout__element-order-table-name-${i}` }
       >
         {product.name}
-      </p>
-      <p
+      </td>
+      <td
+        className="p-2 text-center border-t-4 border-gray-600 "
         data-testid={ `customer_checkout__element-order-table-quantity-${i}` }
       >
-        quantidade
         {product.quantityProducts}
-      </p>
-      <p
+      </td>
+      <td
+        className="p-2 text-center border-t-4 border-gray-600 "
+
         data-testid={ `customer_checkout__element-order-table-unit-price-${i}` }
       >
-        {product.price.replace('.', ',')}
-      </p>
-      <p
+        {priceFormatter.format(product.price)}
+      </td>
+      <td
+        className="p-2 text-center border-t-4 border-gray-600 "
+
         data-testid={ `customer_checkout__element-order-table-sub-total-${i}` }
       >
-        subTotal
         {priceFormatter.format(totalPrice).replace('.', ',')}
-      </p>
-      <button
-        onClick={ handleRemoveProduct }
-        type="button"
-        data-testid={ `customer_checkout__element-order-table-remove-${i}` }
+      </td>
+      <td
+        className="bg-transparent  text-center border-t-4 border-gray-600 "
       >
-        Remove
-      </button>
-    </div>
+        <button
+          className="bg-red-600 p-2 rounded w-full"
+          onClick={ handleRemoveProduct }
+          type="button"
+          data-testid={ `customer_checkout__element-order-table-remove-${i}` }
+        >
+          Remove
+        </button>
+      </td>
+    </tr>
   );
 }
 

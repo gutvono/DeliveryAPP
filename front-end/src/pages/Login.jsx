@@ -2,9 +2,15 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useState, useEffect } from 'react';
+import { Player } from '@lottiefiles/react-lottie-player';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Delivery from '../images/delivery.json';
+import enter from '../images/enter-room.svg';
+import users from '../images/users-white.svg';
 import api from '../service/api';
+import Logo from '../images/logo2.svg';
+import Blobs from '../images/blobs.svg';
 
 const six = 6;
 const schema = z.object({
@@ -54,17 +60,48 @@ function Login() {
 
   return (
     <>
-      <header>Logo</header>
+      <header
+        className="max-w-[1100px] flex items-center justify-between mx-auto"
+      >
+        <div
+          className="flex items-center justify-center gap-4 p-8"
+        >
+          <img
+            src={ Logo }
+            alt=""
+          />
+          <h2
+            className="text-gray-200 font-semibold text-xl"
+          >
+            App delivery
+
+          </h2>
+
+        </div>
+      </header>
       <main
         className="max-w-[1124px] w-full mt-20
         mx-auto flex justify-between items-center px-10"
       >
         <section className="w-[1/2] ">
+          <img
+            className="absolute bottom-0 right-0 scale-x-[-1] opacity-80 -z-10"
+            src={ Blobs }
+            alt=""
+            width={ 350 }
+            height={ 350 }
+          />
           <h1 className="text-3xl font-bold text-gray-200 mb-10">
             O app com a entrega mais rapida
             <br />
             do Brasil
           </h1>
+          <Player
+            autoplay
+            loop
+            src={ Delivery }
+            style={ { height: '350px', width: '350px' } }
+          />
         </section>
         <section className="w-[1/2] ">
           <form
@@ -96,6 +133,7 @@ function Login() {
               data-testid="common_login__button-login"
               disabled={ disableBtn }
             >
+              <img src={ enter } alt="" />
               Entrar
             </button>
           </form>
@@ -105,18 +143,18 @@ function Login() {
             <div className="w-14 h-px bg-gray-300" />
           </div>
           <button
-            className="flex items-center justify-center"
+            className="flex items-center gap-2
+            justify-center text-center border-[1.4px] border-green-500 p-2 mt-4
+            text-gray-200 w-56 rounded hover:bg-green-500 transition-all
+              hover:text-gray-100"
             type="button"
             data-testid="common_login__button-register"
             onClick={ () => navigate('/register') }
           >
-            <p
-              className="text-center border-[1.4px] border-green-500 p-2 mt-4
-             text-gray-200 w-56 rounded hover:bg-green-500 transition-all
-               hover:text-gray-100 "
-            >
-              Cadastrar
-            </p>
+            <img src={ users } alt="" />
+
+            Cadastrar
+
           </button>
           {messageErr && (
             <p data-testid="common_login__element-invalid-email">{messageErr}</p>

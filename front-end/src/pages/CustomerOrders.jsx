@@ -24,7 +24,7 @@ function CustomerOrders() {
         requests="MEUS PEDIDOS"
         user={ JSON.parse(localStorage.getItem('user')).name }
       />
-      <div>
+      <div className="flex flex-wrap gap-9  justify-center items-center mt-6">
         {
           orders.map((sale) => (
             <CardOrders

@@ -19,6 +19,8 @@ function Menu() {
   return (
     <section>
       <button
+        className="bg-green-700 text-gray-100 font-semibold p-2
+        rounded fixed bottom-0 m-4 right-0"
         data-testid="customer_products__button-cart"
         type="button"
         name="orders"
@@ -30,7 +32,7 @@ function Menu() {
           {`Total: ${priceFormatter.format(cartOrdersTotalPrice).replace('.', ',')}`}
         </p>
       </button>
-      <div>
+      <div className="flex flex-wrap gap-9  justify-center items-center mt-6">
         { products.map((item) => (
           <Card
             key={ item.id }

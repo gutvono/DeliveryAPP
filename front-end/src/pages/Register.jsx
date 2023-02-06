@@ -2,10 +2,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useState, useEffect } from 'react';
+import { Player } from '@lottiefiles/react-lottie-player';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from '../service/api';
-import Header from '../components/Header';
+import Logo from '../images/logo2.svg';
+import Blobs from '../images/blobs.svg';
+import RegisterJson from '../images/register.json.json';
 
 const six = 6;
 const twelve = 12;
@@ -51,16 +54,52 @@ function Register() {
 
   return (
     <>
-      <Header />
-      <main>
+      <header
+        className="max-w-[1100px] flex items-center justify-between mx-auto"
+      >
+        <div
+          className="flex items-center justify-center gap-4 p-8"
+        >
+          <img
+            src={ Logo }
+            alt=""
+          />
+          <h2
+            className="text-gray-200 font-semibold text-xl"
+          >
+            App delivery
+
+          </h2>
+
+        </div>
+      </header>
+      <main
+        className="max-w-[1124px] w-full mt-20
+      mx-auto flex justify-between items-center px-10"
+      >
+        <section>
+          <img
+            className="absolute bottom-0 right-0 scale-x-[-1] opacity-80 -z-10"
+            src={ Blobs }
+            alt=""
+            width={ 350 }
+            height={ 350 }
+          />
+          <Player
+            autoplay
+            loop
+            src={ RegisterJson }
+            style={ { height: '350px', width: '350px' } }
+          />
+        </section>
         <section className="w-[1/2] ">
           <form
-            className="flex flex-col items-center justify-center gap-4 text-gray-200"
+            className="flex flex-col items-center justify-center gap-4 text-gray-200 "
             onSubmit={ handleSubmit(handleRegister) }
           >
             <input
               { ...register('name') }
-              className="bg-transparent border-[1.4px] border-green-500
+              className="bg-transparent border-[1.4px] border-green-500 w-[15rem]
                 rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setName(value) }
               type="text"
@@ -69,7 +108,7 @@ function Register() {
             />
             <input
               { ...register('email') }
-              className="bg-transparent border-[1.4px] border-green-500
+              className="bg-transparent border-[1.4px] border-green-500 w-[15rem]
                 rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setEmail(value) }
               type="text"
@@ -78,7 +117,7 @@ function Register() {
             />
             <input
               { ...register('password') }
-              className="bg-transparent border-[1.4px] border-green-500
+              className="bg-transparent border-[1.4px] border-green-500 w-[15rem]
                 rounded placeholder:text-sm placeholder:text-gray-300 p-2"
               onChange={ ({ target: { value } }) => setPassword(value) }
               type="password"
@@ -86,7 +125,8 @@ function Register() {
               data-testid="common_register__input-password"
             />
             <button
-              className="flex items-center justify-center text-gray-100 gap-4 bg-green-500
+              className="flex items-center justify-center
+                w-full text-gray-100 gap-4 bg-green-500
                 p-2 rounded disabled:bg-green-700  "
               type="submit"
               data-testid="common_register__button-register"

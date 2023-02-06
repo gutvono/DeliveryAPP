@@ -6,10 +6,15 @@ function Header({ requests, products, user, roleSeller }) {
   const { role } = JSON.parse(localStorage.getItem('user'));
 
   return (
-    <header className="max-w-[1100px] flex items-center justify-between mx-auto ">
+    <header
+      className="max-w-[1100px]
+    flex items-center justify-between mx-auto
+         bg-green-800"
+    >
+
       { role === 'customer' && (
         <Link
-          className="ColorTextDark"
+          className="bg-green-400 p-[20px] "
           to="/customer/products"
         >
           <h2
@@ -20,39 +25,45 @@ function Header({ requests, products, user, roleSeller }) {
         </Link>
       )}
       <Link
-        className="flex items-center justify-center w-[32rem] bg-green-800"
+        className="bg-green-400 p-[20px] "
         to={ `/${role}/orders` }
       >
         <h2
           data-testid="customer_products__element-navbar-link-orders"
-          className="  text-gray-100 p-[16px]"
+          className="  text-gray-100"
         >
           { requests || roleSeller }
         </h2>
       </Link>
+
       <div
         className="
+        text-xs text-gray-100
         flex items-center justify-center
-         text-gray-200 w-[10rem] bg-purple-600 p-[20px]"
+         w-[15rem]  "
+
       >
         <span
+          className="bg-purple-600 py-6 w-[20rem] flex items-center justify-center"
           data-testid="customer_products__element-navbar-user-full-name"
-          className="text-xs text-gray-100"
+
         >
           { user }
         </span>
+        <button
+          className="flex items-center justify-center bg-blue-600
+          p-[20px] w-full py-6 text-gray-200"
+          type="button"
+          onClick={ () => {
+            navigate('/');
+            localStorage.removeItem('user');
+            localStorage.setItem('carrinho', JSON.stringify([]));
+          } }
+          data-testid="customer_products__element-navbar-link-logout"
+        >
+          Log-out
+        </button>
       </div>
-      <button
-        type="button"
-        onClick={ () => {
-          navigate('/');
-          localStorage.removeItem('user');
-          localStorage.setItem('carrinho', JSON.stringify([]));
-        } }
-        data-testid="customer_products__element-navbar-link-logout"
-      >
-        Log-out
-      </button>
     </header>
   );
 }

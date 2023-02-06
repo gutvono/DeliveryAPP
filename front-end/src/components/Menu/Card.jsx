@@ -29,52 +29,72 @@ function Card({ product }) {
 
   return (
     <div
+      className=" mb-10 w-[14rem] bg-gray-400
+          flex flex-col items-center justify-center
+          text-center  rounded
+          text-gray-100
+          "
       key={ id }
     >
       <img
+        className=" w-full  h-44 object-fill rounded-tl-md rounded-tr-md"
         src={ urlImage }
         alt={ name }
-        width={ 250 }
-        height={ 250 }
         data-testid={ `customer_products__img-card-bg-image-${id}` }
       />
-      <h3 data-testid={ `customer_products__element-card-title-${id}` }>{name}</h3>
-      <div>
+      <h3
+        data-testid={ `customer_products__element-card-title-${id}` }
+        className="text-left w-full px-2 py-4"
+      >
+        {name}
+
+      </h3>
+
+      <div
+        className="flex text-gray-100 items-center justify-between w-full px-2 "
+      >
         <p
           data-testid={ `customer_products__element-card-price-${id}` }
           style={ { fontWeight: 'bold' } }
         >
+          R$
+          {' '}
           { price.toString().replace('.', ',') }
         </p>
-        <div>
-          <div>
-            <button
-              className="text-blue-500 text-xl py-[.5rem]"
-              type="button"
-              data-testid={ `customer_products__button-card-rm-item-${id}` }
-              onClick={ () => setQuantityProducts(Number(quantityProducts) - 1) }
-              disabled={ quantityProducts < 1 }
-            >
-              -
-            </button>
-            <input
-              type="string"
-              data-testid={ `customer_products__input-card-quantity-${id}` }
-              value={ quantityProducts }
-              onChange={ ({ target }) => setQuantityProducts(Number(target.value)) }
-            />
-            <button
-              className="text-blue-500 text-xl"
-              type="button"
-              data-testid={ `customer_products__button-card-add-item-${id}` }
-              onClick={ () => setQuantityProducts(Number(quantityProducts) + 1) }
-            >
-              +
-            </button>
-          </div>
+        <div
+          className="flex items-center justify-center "
+        >
+
+          <button
+            className="text-green-500 text-xl py-[.5rem]"
+            type="button"
+            data-testid={ `customer_products__button-card-rm-item-${id}` }
+            onClick={ () => setQuantityProducts(Number(quantityProducts) - 1) }
+            disabled={ quantityProducts < 1 }
+          >
+            -
+          </button>
+          <input
+            className=" text-gray-100 bg-transparent flex
+            items-center justify-center w-6 text-center"
+            type="string"
+            data-testid={ `customer_products__input-card-quantity-${id}` }
+            value={ quantityProducts }
+            onChange={ ({ target }) => setQuantityProducts(Number(target.value)) }
+          />
+          <button
+            className="text-green-500 text-xl"
+            type="button"
+            data-testid={ `customer_products__button-card-add-item-${id}` }
+            onClick={ () => setQuantityProducts(Number(quantityProducts) + 1) }
+          >
+            +
+          </button>
         </div>
       </div>
+
     </div>
+
   );
 }
 
