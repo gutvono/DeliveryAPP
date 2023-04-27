@@ -68,15 +68,13 @@ function Login() {
         >
           <img
             src={ Logo }
-            alt=""
+            alt="logo"
           />
           <h2
             className="text-gray-200 font-semibold text-xl"
           >
             App delivery
-
           </h2>
-
         </div>
       </header>
       <main
@@ -157,7 +155,12 @@ function Login() {
 
           </button>
           {messageErr && (
-            <p data-testid="common_login__element-invalid-email">{messageErr}</p>
+            <p
+              data-testid="common_login__element-invalid-email"
+              className="text-gray-200 text-center"
+            >
+              {messageErr}
+            </p>
           )}
         </section>
       </main>

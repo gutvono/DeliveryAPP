@@ -18,7 +18,6 @@ function OrdersDetails() {
   const getOrders = async () => {
     const response = await
     api.get(`customer/orders/${id}`, { headers: { Authorization: token } });
-    // console.log(response.data);
     setOrders(response.data);
   };
   const formatDate = new Date(orders.saleDate).toLocaleDateString('pt-BR');
