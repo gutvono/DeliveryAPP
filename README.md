@@ -1,6 +1,6 @@
 --- _Portugues_ ---
 
-# Boas-vindas ao repositório do projeto `Football APP`!
+# Boas-vindas ao repositório do projeto `Delivery APP`!
 
 🌱 Neste projeto temos a base para qualquer tipo de _e-commerce_ do tipo delivery. Dentro da aplicação temos fluxo de vendedor, cliente e administrador, cada um com suas funções com telas diferentes ao logar.
 
@@ -59,6 +59,7 @@ Como sempre, um projeto nunca termina de fato. Sempre haverão **melhorias** par
 <details>
     <summary><strong>Futuro potencial/melhorias</strong></summary>
     <li>Melhorias estruturais seguindo alguns design de software como SOLID, POO, DDD, etc;</li>
+    <li>Passar o projeto de JavaScript para TypeScript;</li>
     <li>Testes unitários mais específicos, expressivos e funcionais;</li>
     <li>Expandir alguns trechos de codigos para uma melhor manutenção e entendimento;</li>
     <li>Adicionar comentários explicativos;</li>
