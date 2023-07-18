@@ -1,53 +1,68 @@
 version: '3.9'
 services:
+  # Frontend service - the user interface of the app
   frontend:
     container_name: frontend-delivery
-    build: './front-end'
+    build: './front-end'  # Path to the frontend Dockerfile
+    image: frontend-deliveryapp-image
     tty: true
     ports:
-      - 3000:3000
+      - 3000:3000  # Expose the container's port 3000 to the host's port 3000
     working_dir: /app-frontend
-    restart: 'always'
+    restart: 'always'  # Always restart the container if it stops unexpectedly
     volumes:
-      - ./front-end/src:/app-frontend/src
-      - ./front-end/package.json:/app-frontend/package.json
+      - ./front-end/src:/app-frontend/src  # Mount the frontend source code directory into the container
+      - ./front-end/package.json:/app-frontend/package.json  # Mount the frontend package.json into the container
     depends_on:
-      - backend
+      - backend  # Ensure the backend service is up before starting this frontend service
+    networks:
+      - delivery-app-network-server
+
+  # Backend service - the backend logic of the app
   backend:
     container_name: backend-delivery
-    build: ./back-end
+    build: ./back-end  # Path to the backend Dockerfile
+    image: backend-deliveryapp-image
     ports:
-      - 3001:3001
+      - 3001:3001  # Expose the container's port 3001 to the host's port 3001
     tty: true
     working_dir: /app-backend
-    command: dev
-    restart: 'always'
+    command: dev  # The command to run when starting the backend container (assumed to be a development environment)
+    restart: 'always'  # Always restart the container if it stops unexpectedly
     volumes:
-      - ./back-end/src:/app-backend/src
-      - ./back-end/package.json:/app-backend/package.json
+      - ./back-end/src:/app-backend/src  # Mount the backend source code directory into the container
+      - ./back-end/package.json:/app-backend/package.json  # Mount the backend package.json into the container
     environment:
-      - HOSTNAME=db
-      - MYSQL_PORT=3306
+      - HOSTNAME=db  # Environment variable to set the hostname for the backend (assumed to be the database)
+      - MYSQL_PORT=3306  # Environment variable to set the MySQL port for the backend
     depends_on:
       db:
-        condition: service_healthy
+        condition: service_healthy  # Ensure the database service is up and healthy before starting this backend service
+    networks:
+      - delivery-app-network-server
+
+  # Database service - MySQL database for the app
   db:
-    image: mysql:8.0.21
+    image: mysql:8.0.21  # Use the specified MySQL Docker image
     container_name: db-delivery
-    platform: linux/x86_64
+    platform: linux/x86_64  # Specify the platform for the container
     environment:
-      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_ROOT_PASSWORD=123456  # Set the root password for the MySQL database
     ports:
-      - 3002:3306
+      - 3002:3306  # Expose the container's port 3306 (MySQL) to the host's port 3002
     volumes:
-      - ./back-end/src/database/db:/var/lib/mysql
-    restart: 'always'
+      - ./back-end/src/database/db:/var/lib/mysql  # Mount the database data directory into the container
+    restart: 'always'  # Always restart the container if it stops unexpectedly
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]  # Health check command to test if MySQL is responsive
+      interval: 10s  # Interval between health checks
+      timeout: 30s  # Timeout for each health check
+      retries: 5  # Number of retries before considering the container unhealthy
+      start_period: 30s  # Delay before starting the first health check
+    networks:
+      - delivery-app-network-server
+
+# Networks configuration
 networks:
-    default:
-        driver: bridge
+  delivery-app-network-server:
+    driver: bridge  # Use the bridge network driver for the services
