@@ -35,19 +35,19 @@
   1. **Criar os containers**
 
   ```bash
-  $ docker-compose up -d --build
+  docker-compose up -d --build
   ```
 
   2. **No terminal do container do backend, rodar o comando para popular o banco**
 
   ```bash
-  $ npm run db:reset
+  npm run db:reset
   ```
 
   3. **Iniciar server**
 
   ```bash
-  $ npm run dev
+  npm run dev
   ```
 
 As dependencias serão instaladas dentro dos respectivos containers, pois ao criá-los é rodado o comando _npm install_ em cada **Dockerfile**.
