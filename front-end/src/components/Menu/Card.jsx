@@ -64,7 +64,6 @@ function Card({ product }) {
         <div
           className="flex items-center justify-center "
         >
-
           <button
             className="text-green-500 text-xl py-[.5rem]"
             type="button"
@@ -81,6 +80,7 @@ function Card({ product }) {
             data-testid={ `customer_products__input-card-quantity-${id}` }
             value={ quantityProducts }
             onChange={ ({ target }) => setQuantityProducts(Number(target.value)) }
+            on
           />
           <button
             className="text-green-500 text-xl"

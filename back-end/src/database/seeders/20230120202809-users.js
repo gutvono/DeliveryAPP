@@ -22,6 +22,12 @@ module.exports = {
         password: '1c37466c159755ce1fa181bd247cb925',
         role: 'customer'
       },
+      {
+        name: 'teste teste teste',
+        email: 'teste@teste.com',
+        password: 'aa1bf4646de67fd9086cf6c79007026c',
+        role: 'customer'
+      },
     ], {});
   },
 
